@@ -20,9 +20,12 @@ class SignIn extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.asset('assets/images/signin.png'),
+              Image.asset(
+                'assets/images/signin.png',
+                scale: 5,
+              ),
               const Text(
                 'Sign In',
                 style: TextStyle(
@@ -49,10 +52,7 @@ class SignIn extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   Navigator.pushReplacement(
-                      context,
-                      PageTransition(
-                          child: const RootPage(),
-                          type: PageTransitionType.bottomToTop));
+                      context, PageTransition(child: const RootPage(), type: PageTransitionType.bottomToTop));
                 },
                 child: Container(
                   width: size.width,
@@ -60,8 +60,7 @@ class SignIn extends StatelessWidget {
                     color: Constants.primaryColor,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                   child: const Center(
                     child: Text(
                       'Sign In',
@@ -78,11 +77,8 @@ class SignIn extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.pushReplacement(
-                      context,
-                      PageTransition(
-                          child: const ForgotPassword(),
-                          type: PageTransitionType.bottomToTop));
+                  Navigator.pushReplacement(context,
+                      PageTransition(child: const ForgotPassword(), type: PageTransitionType.bottomToTop));
                 },
                 child: Center(
                   child: Text.rich(
@@ -119,40 +115,36 @@ class SignIn extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              Container(
-                width: size.width,
-                decoration: BoxDecoration(
-                    border: Border.all(color: Constants.primaryColor),
-                    borderRadius: BorderRadius.circular(10)),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    SizedBox(
-                      height: 30,
-                      child: Image.asset('assets/images/google.png'),
-                    ),
-                    Text(
-                      'Sign In with Google',
-                      style: TextStyle(
-                        color: Constants.blackColor,
-                        fontSize: 18.0,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              // Container(
+              //   width: size.width,
+              //   decoration: BoxDecoration(
+              //       border: Border.all(color: Constants.primaryColor),
+              //       borderRadius: BorderRadius.circular(10)),
+              //   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+              //     children: [
+              //       SizedBox(
+              //         height: 30,
+              //         child: Image.asset('assets/images/google.png'),
+              //       ),
+              //       Text(
+              //         'Sign In with Google',
+              //         style: TextStyle(
+              //           color: Constants.blackColor,
+              //           fontSize: 18.0,
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
               const SizedBox(
                 height: 20,
               ),
               GestureDetector(
                 onTap: () {
                   Navigator.pushReplacement(
-                      context,
-                      PageTransition(
-                          child: const SignUp(),
-                          type: PageTransitionType.bottomToTop));
+                      context, PageTransition(child: const SignUp(), type: PageTransitionType.bottomToTop));
                 },
                 child: Center(
                   child: Text.rich(

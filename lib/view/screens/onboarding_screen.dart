@@ -91,12 +91,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         currentIndex++;
                         if (currentIndex < 3) {
                           _pageController.nextPage(
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.easeIn);
+                              duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
                         }
                       } else {
-                        Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (_) => SignIn()));
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => SignIn()));
                       }
                     });
                   },
@@ -163,10 +161,7 @@ class createPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(
-            height: 350,
-            child: Image.asset(image),
-          ),
+          Expanded(child: Image.asset(image, scale: 3)),
           const SizedBox(
             height: 20,
           ),
@@ -182,13 +177,15 @@ class createPage extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          Text(
-            description,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w400,
-              color: Colors.grey,
+          Expanded(
+            child: Text(
+              description,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w400,
+                color: Colors.grey,
+              ),
             ),
           ),
           const SizedBox(

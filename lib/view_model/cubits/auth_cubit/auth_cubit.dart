@@ -25,8 +25,7 @@ class AuthCubit extends Cubit<AuthState> {
   void signUp(context) async {
     emit(CreateAccountLoading());
     await FirebaseAuth.instance
-        .signInWithEmailAndPassword(
-        email: emailController.text, password: passwordController.text)
+        .signInWithEmailAndPassword(email: emailController.text, password: passwordController.text)
         .then((value) async {
       await FirebaseFirestore.instance
           .collection('users')
@@ -68,6 +67,7 @@ class AuthCubit extends Cubit<AuthState> {
       });
     }).catchError((onError) {
       Fluttertoast.showToast(msg: onError.toString());
+      print(onError.toString());
       emit(SignInError());
     });
   }

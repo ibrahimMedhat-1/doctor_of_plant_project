@@ -22,6 +22,7 @@ class CustomTextfield extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: controller,
       obscureText: obscureText,
       style: TextStyle(
         color: Constants.blackColor,

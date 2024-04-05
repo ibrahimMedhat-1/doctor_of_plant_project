@@ -25,7 +25,7 @@ class AuthCubit extends Cubit<AuthState> {
   void signUp(context) async {
     emit(CreateAccountLoading());
     await FirebaseAuth.instance
-        .signInWithEmailAndPassword(email: emailController.text, password: passwordController.text)
+        .createUserWithEmailAndPassword(email: emailController.text, password: passwordController.text)
         .then((value) async {
       await FirebaseFirestore.instance
           .collection('users')

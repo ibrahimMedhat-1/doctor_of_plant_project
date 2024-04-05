@@ -1,11 +1,11 @@
+import 'package:doctor_of_plant_project/models/plant_model.dart';
 import 'package:doctor_of_plant_project/view_model/utils/colors.dart';
 import 'package:flutter/material.dart';
 
-import '../../models/plants.dart';
 import '../components/plant_widget.dart';
 
 class CartPage extends StatefulWidget {
-  final List<Plant> addedToCartPlants;
+  final List<PlantModel> addedToCartPlants;
 
   const CartPage({Key? key, required this.addedToCartPlants}) : super(key: key);
 
@@ -53,9 +53,7 @@ class _CartPageState extends State<CartPage> {
                         scrollDirection: Axis.vertical,
                         physics: const BouncingScrollPhysics(),
                         itemBuilder: (BuildContext context, int index) {
-                          return PlantWidget(
-                              index: index,
-                              plantList: widget.addedToCartPlants);
+                          return PlantWidget(index: index, plantList: widget.addedToCartPlants);
                         }),
                   ),
                   Column(

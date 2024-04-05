@@ -16,6 +16,7 @@ class HomeCubit extends Cubit<HomeState> {
   void getFertilizers() {
     emit(GetAllFertilizersLoading());
     FirebaseFirestore.instance.collection('fertilizer').get().then((value) {
+      fertilizers.clear();
       for (var element in value.docs) {
         fertilizers.add(FertilizerModel.fromJson(element.data()));
       }
@@ -27,8 +28,11 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   void getPlants() {
+    print('element.data()');
+
     emit(GetAllPlantsLoading());
     FirebaseFirestore.instance.collection('plants').get().then((value) {
+      plants.clear();
       for (var element in value.docs) {
         plants.add(PlantModel.fromJson(element.data()));
       }

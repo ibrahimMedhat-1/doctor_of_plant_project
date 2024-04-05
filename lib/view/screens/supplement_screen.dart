@@ -1,4 +1,4 @@
-import 'package:doctor_of_plant_project/models/plants.dart';
+import 'package:doctor_of_plant_project/models/plant_model.dart';
 import 'package:doctor_of_plant_project/view/components/plant_widget.dart';
 import 'package:doctor_of_plant_project/view/screens/detail_screen.dart';
 import 'package:doctor_of_plant_project/view_model/utils/colors.dart';
@@ -14,7 +14,7 @@ class SupplementScreen extends StatefulWidget {
 }
 
 class _SupplementScreenState extends State<SupplementScreen> {
-  List<Plant> plantList = Plant.plantList;
+  List<PlantModel>? plantList;
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +59,7 @@ class _SupplementScreenState extends State<SupplementScreen> {
                       context,
                       PageTransition(
                         child: DetailPage(
-                          plantId: plantList[index].plantId,
+                          plantId: int.parse(plantList![index].plantId.toString()),
                         ),
                         type: PageTransitionType.bottomToTop,
                       ) as Widget,
@@ -67,11 +67,11 @@ class _SupplementScreenState extends State<SupplementScreen> {
                   },
                   child: PlantWidget(
                     index: index,
-                    plantList: plantList,
+                    plantList: plantList!,
                   ),
                 );
               },
-              childCount: plantList.length,
+              childCount: plantList!.length,
             ),
           ),
         ],

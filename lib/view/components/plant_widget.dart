@@ -1,8 +1,8 @@
+import 'package:doctor_of_plant_project/models/plant_model.dart';
 import 'package:doctor_of_plant_project/view_model/utils/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:page_transition/page_transition.dart';
 
-import '../../models/plants.dart';
 import '../screens/detail_screen.dart';
 
 class PlantWidget extends StatelessWidget {
@@ -13,7 +13,7 @@ class PlantWidget extends StatelessWidget {
   }) : super(key: key);
 
   final int index;
-  final List<Plant> plantList;
+  final List<PlantModel> plantList;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class PlantWidget extends StatelessWidget {
             context,
             PageTransition(
                 child: DetailPage(
-                  plantId: plantList[index].plantId,
+                  plantId: int.parse(plantList[index].plantId.toString()),
                 ),
                 type: PageTransitionType.bottomToTop));
       },
@@ -59,7 +59,7 @@ class PlantWidget extends StatelessWidget {
                   right: 0,
                   child: SizedBox(
                     height: 80.0,
-                    child: Image.asset(plantList[index].imageURL),
+                    child: Image.network(plantList[index].imageURL ?? ''),
                   ),
                 ),
                 Positioned(
@@ -68,9 +68,9 @@ class PlantWidget extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(plantList[index].category),
+                      Text(plantList[index].category ?? ''),
                       Text(
-                        plantList[index].plantName,
+                        plantList[index].plantName ?? '',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,

@@ -1,14 +1,13 @@
+import 'package:doctor_of_plant_project/models/plant_model.dart';
 import 'package:doctor_of_plant_project/view_model/utils/colors.dart';
 import 'package:flutter/material.dart';
 
-import '../../models/plants.dart';
 import '../components/plant_widget.dart';
 
 class FavoritePage extends StatefulWidget {
-  final List<Plant> favoritedPlants;
+  final List<PlantModel> favoritedPlants;
 
-  const FavoritePage({Key? key, required this.favoritedPlants})
-      : super(key: key);
+  const FavoritePage({Key? key, required this.favoritedPlants}) : super(key: key);
 
   @override
   State<FavoritePage> createState() => _FavoritePageState();
@@ -50,8 +49,7 @@ class _FavoritePageState extends State<FavoritePage> {
                   scrollDirection: Axis.vertical,
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (BuildContext context, int index) {
-                    return PlantWidget(
-                        index: index, plantList: widget.favoritedPlants);
+                    return PlantWidget(index: index, plantList: widget.favoritedPlants);
                   }),
             ),
     );

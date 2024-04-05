@@ -1,11 +1,11 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
+import 'package:doctor_of_plant_project/models/plant_model.dart';
 import 'package:doctor_of_plant_project/view/screens/profile_screen.dart';
 import 'package:doctor_of_plant_project/view/screens/scan_page.dart';
 import 'package:doctor_of_plant_project/view_model/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
-import '../../models/plants.dart';
 import 'cart_screen.dart';
 import 'favourite_screen.dart';
 import 'home_screen.dart';
@@ -18,24 +18,22 @@ class RootPage extends StatefulWidget {
 }
 
 class _RootPageState extends State<RootPage> {
-  List<Plant> favorites = [];
-  List<Plant> myCart = [];
+  List<PlantModel> favorites = [];
+  List<PlantModel> myCart = [];
 
   int _bottomNavIndex = 0;
 
   //List of the pages
-  List<Widget> _widgetOptions() {
-    return [
-      const HomePage(),
-      FavoritePage(
-        favoritedPlants: favorites,
-      ),
-      CartPage(
-        addedToCartPlants: myCart,
-      ),
-      const ProfilePage(),
-    ];
-  }
+  List<Widget> _widgetOptions = [
+    const HomePage(),
+    FavoritePage(
+      favoritedPlants: [],
+    ),
+    CartPage(
+      addedToCartPlants: [],
+    ),
+    const ProfilePage(),
+  ];
 
   //List of the pages icons
   List<IconData> iconList = [
@@ -78,17 +76,11 @@ class _RootPageState extends State<RootPage> {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0.0,
       ),
-      body: IndexedStack(
-        index: _bottomNavIndex,
-        children: _widgetOptions(),
-      ),
+      body: _widgetOptions[_bottomNavIndex],
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
-              context,
-              PageTransition(
-                  child: const ScanPage(),
-                  type: PageTransitionType.bottomToTop));
+              context, PageTransition(child: const ScanPage(), type: PageTransitionType.bottomToTop));
         },
         backgroundColor: Constants.primaryColor,
         child: Image.asset(
@@ -108,11 +100,6 @@ class _RootPageState extends State<RootPage> {
           onTap: (index) {
             setState(() {
               _bottomNavIndex = index;
-              final List<Plant> favoritedPlants = Plant.getFavoritedPlants();
-              final List<Plant> addedToCartPlants = Plant.addedToCartPlants();
-
-              favorites = favoritedPlants;
-              myCart = addedToCartPlants.toSet().toList();
             });
           }),
     );

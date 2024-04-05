@@ -50,7 +50,7 @@ dependencies:
   localization: ^2.1.1
   localize_and_translate: ^5.1.2
   email_validator: ^2.1.17
-
+  fluttertoast:
 dev_dependencies:
   flutter_test:
     sdk: flutter

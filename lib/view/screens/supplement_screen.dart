@@ -59,7 +59,7 @@ class _SupplementScreenState extends State<SupplementScreen> {
                       context,
                       PageTransition(
                         child: DetailPage(
-                          plantId: int.parse(plantList![index].plantId.toString()),
+                          plant: plantList![index],
                         ),
                         type: PageTransitionType.bottomToTop,
                       ) as Widget,

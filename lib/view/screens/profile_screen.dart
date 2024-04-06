@@ -39,7 +39,7 @@ class ProfilePage extends StatelessWidget {
                 child: Row(
                   children: [
                     Text(
-                      'John Doe',
+                      Constants.userModel!.name.toString(),
                       style: TextStyle(
                         color: Constants.blackColor,
                         fontSize: 20,
@@ -52,7 +52,7 @@ class ProfilePage extends StatelessWidget {
                 ),
               ),
               Text(
-                'johndoe@gmail.com',
+                  Constants.userModel!.email.toString(),
                 style: TextStyle(
                   color: Constants.blackColor.withOpacity(.3),
                 ),

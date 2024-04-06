@@ -9,3 +9,7 @@ final class GetAllPlantsError extends HomeState {}
 final class GetAllFertilizersLoading extends HomeState {}
 final class GetAllFertilizersSuccessfully extends HomeState {}
 final class GetAllFertilizersError extends HomeState {}
+final class AddPlantToCartLoading extends HomeState {}
+final class PlantAddedToCart extends HomeState {}
+final class PlantAddedToFav extends HomeState {}
+final class removedFromFav extends HomeState {}

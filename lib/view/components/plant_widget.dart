@@ -13,7 +13,7 @@ class PlantWidget extends StatelessWidget {
   }) : super(key: key);
 
   final int index;
-  final List<PlantModel> plantList;
+  final List<dynamic> plantList;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,8 @@ class PlantWidget extends StatelessWidget {
             context,
             PageTransition(
                 child: DetailPage(
-                  plantId: int.parse(plantList[index].plantId.toString()),
+                  plant: plantList[index].ref.path.split("/").first== "fertilizer"? null:plantList[index],
+                  fertilizerModel: plantList[index].ref.path.split("/").first== "fertilizer"? plantList[index]:null,
                 ),
                 type: PageTransitionType.bottomToTop));
       },
@@ -59,7 +60,7 @@ class PlantWidget extends StatelessWidget {
                   right: 0,
                   child: SizedBox(
                     height: 80.0,
-                    child: Image.network(plantList[index].imageURL ?? ''),
+                    child: Image.network(plantList[index].image ?? ''),
                   ),
                 ),
                 Positioned(
@@ -68,9 +69,9 @@ class PlantWidget extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(plantList[index].category ?? ''),
+                      // Text(plantList[index].category ?? ''),
                       Text(
-                        plantList[index].plantName ?? '',
+                        plantList[index].name ?? '',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,

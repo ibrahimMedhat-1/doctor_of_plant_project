@@ -1,52 +1,46 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class PlantModel {
   String? plantId;
-  int? price;
+  num? price;
   String? size;
   double? rating;
   String? humidity;
   String? temperature;
   String? category;
-  String? plantName;
-  String? imageURL;
-  bool? isFavorated;
+  String? name;
+  String? image;
+  bool isFavorated = false;
   String? decription;
-  bool? isSelected;
+  bool isCart = false ;
+  DocumentReference<Map<String,dynamic>>? ref;
 
-  PlantModel(
-      {required this.plantId,
-      required this.price,
-      this.category,
-      required this.plantName,
-      required this.size,
-      required this.rating,
-      required this.humidity,
-      required this.temperature,
-      required this.imageURL,
-      required this.isFavorated,
-      required this.decription,
-      required this.isSelected});
 
-  PlantModel.fromJson(Map<String, dynamic>? json) {
+
+  PlantModel.fromJson(Map<String, dynamic>? json,
+      {this.isFavorated = false, this.isCart = false}) {
     plantId = json!['plantId'];
     price = json['price'];
     category = json['category'];
-    plantName = json['plantName'];
+    name = json['plantName'];
     size = json['size'];
     decription = json['decription'];
     humidity = json['humidity'];
     temperature = json['temperature'];
-    imageURL = json['imageURL'];
+    image = json['imageURL'];
+    ref = json['ref'];
   }
 
   Map<String, dynamic> toMap() => {
         'plantId': plantId,
-        'plantName': plantName,
+        'plantName': name,
         'category': category,
         'price': price,
         'size': size,
         'decription': decription,
         'humidity': humidity,
         'temperature': temperature,
-        'imageURL': imageURL,
+        'imageURL': image,
+        'ref': ref,
       };
 }

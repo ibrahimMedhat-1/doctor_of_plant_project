@@ -62,50 +62,44 @@ class _DetailPageState extends State<DetailPage> {
                           debugPrint('favorite');
                         },
                         child: Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25),
-                            color: Constants.primaryColor.withOpacity(.15),
-                          ),
-                          child: IconButton(
-                              onPressed: () {
-                                widget.fertilizerModel == null?
-                                setState(() {
-                                  if (widget.plant!.isFavorated) {
-                                    cubit.removeFromFav(widget.plant!.ref!);
-                                  } else {
-                                    cubit.addToFav(widget.plant!.ref!);
-                                  }
-                                  widget.plant!.isFavorated =
-                                      !widget.plant!.isFavorated;
-                                }):
-                                setState(() {
-                                  if (widget.fertilizerModel!.isFavorated) {
-                                    cubit.removeFromFav(widget.fertilizerModel!.ref!);
-                                  } else {
-                                    cubit.addToFav(widget.fertilizerModel!.ref!);
-                                  }
-                                  widget.fertilizerModel!.isFavorated =
-                                  !widget.fertilizerModel!.isFavorated;
-                                });
-                              },
-                              icon:
-                              widget.fertilizerModel == null?
-                              Icon(
-                                widget.plant!.isFavorated
-                                    ? Icons.favorite
-                                    : Icons.favorite_border,
-                                color: Constants.primaryColor,
-                              ): Icon(
-                                widget.fertilizerModel!.isFavorated
-                                    ? Icons.favorite
-                                    : Icons.favorite_border,
-                                color: Constants.primaryColor,
-                              )
-                          )
-
-                        ),
+                            height: 40,
+                            width: 40,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25),
+                              color: Constants.primaryColor.withOpacity(.15),
+                            ),
+                            child: IconButton(
+                                onPressed: () {
+                                  widget.fertilizerModel == null
+                                      ? setState(() {
+                                          if (widget.plant!.isFavorated) {
+                                            cubit.removeFromFav(widget.plant!.ref!, context);
+                                          } else {
+                                            cubit.addToFav(widget.plant!.ref!, context);
+                                          }
+                                          widget.plant!.isFavorated = !widget.plant!.isFavorated;
+                                        })
+                                      : setState(() {
+                                          if (widget.fertilizerModel!.isFavorated) {
+                                            cubit.removeFromFav(widget.fertilizerModel!.ref!, context);
+                                          } else {
+                                            cubit.addToFav(widget.fertilizerModel!.ref!, context);
+                                          }
+                                          widget.fertilizerModel!.isFavorated =
+                                              !widget.fertilizerModel!.isFavorated;
+                                        });
+                                },
+                                icon: widget.fertilizerModel == null
+                                    ? Icon(
+                                        widget.plant!.isFavorated ? Icons.favorite : Icons.favorite_border,
+                                        color: Constants.primaryColor,
+                                      )
+                                    : Icon(
+                                        widget.fertilizerModel!.isFavorated
+                                            ? Icons.favorite
+                                            : Icons.favorite_border,
+                                        color: Constants.primaryColor,
+                                      ))),
                       ),
                     ],
                   ),
@@ -167,8 +161,7 @@ class _DetailPageState extends State<DetailPage> {
                   left: 0,
                   right: 0,
                   child: Container(
-                    padding:
-                        const EdgeInsets.only(top: 80, left: 30, right: 30),
+                    padding: const EdgeInsets.only(top: 80, left: 30, right: 30),
                     height: size.height * .5,
                     width: size.width,
                     decoration: BoxDecoration(
@@ -260,7 +253,7 @@ class _DetailPageState extends State<DetailPage> {
                     height: 50,
                     width: 50,
                     decoration: BoxDecoration(
-                       color:  Colors.white,
+                        color: Colors.white,
                         borderRadius: BorderRadius.circular(50),
                         boxShadow: [
                           BoxShadow(
@@ -270,45 +263,40 @@ class _DetailPageState extends State<DetailPage> {
                           ),
                         ]),
                     child: IconButton(
-                        onPressed: () {
-                          widget.fertilizerModel == null?
-                          setState(() {
-                            if (widget.plant!.isCart) {
-                              cubit.removeFromCart(widget.plant!.ref!);
-                              CartCubit.get(context).getCartItems();
-                            } else {
-                              cubit.addToCart(widget.plant!.ref!);
-                              CartCubit.get(context).getCartItems();
-                            }
-                            widget.plant!.isCart =
-                            !widget.plant!.isCart;
-                          }):
-                          setState(() {
-                            if (widget.fertilizerModel!.isCart) {
-                              cubit.removeFromCart(widget.fertilizerModel!.ref!);
-                              CartCubit.get(context).getCartItems();
-
-                            } else {
-                              cubit.addToCart(widget.fertilizerModel!.ref!);
-                              CartCubit.get(context).getCartItems();
-                            }
-                            widget.fertilizerModel!.isCart =
-                            !widget.fertilizerModel!.isCart;
-                          });
-                        },
-                        icon:
-                        widget.fertilizerModel == null?
-                        Icon(
-                          Icons.shopping_cart,
-                          color: widget.plant!.isCart == true
-                              ? Constants.primaryColor
-                              : Colors.grey ,
-                        ):Icon(
-                          Icons.shopping_cart,
-                          color: widget.fertilizerModel!.isCart == true
-                              ? Constants.primaryColor
-                              : Colors.grey ,
-                        ),
+                      onPressed: () {
+                        widget.fertilizerModel == null
+                            ? setState(() {
+                                if (widget.plant!.isCart) {
+                                  cubit.removeFromCart(widget.plant!.ref!);
+                                  CartCubit.get(context).getCartItems();
+                                } else {
+                                  cubit.addToCart(widget.plant!.ref!);
+                                  CartCubit.get(context).getCartItems();
+                                }
+                                widget.plant!.isCart = !widget.plant!.isCart;
+                              })
+                            : setState(() {
+                                if (widget.fertilizerModel!.isCart) {
+                                  cubit.removeFromCart(widget.fertilizerModel!.ref!);
+                                  CartCubit.get(context).getCartItems();
+                                } else {
+                                  cubit.addToCart(widget.fertilizerModel!.ref!);
+                                  CartCubit.get(context).getCartItems();
+                                }
+                                widget.fertilizerModel!.isCart = !widget.fertilizerModel!.isCart;
+                              });
+                      },
+                      icon: widget.fertilizerModel == null
+                          ? Icon(
+                              Icons.shopping_cart,
+                              color: widget.plant!.isCart == true ? Constants.primaryColor : Colors.grey,
+                            )
+                          : Icon(
+                              Icons.shopping_cart,
+                              color: widget.fertilizerModel!.isCart == true
+                                  ? Constants.primaryColor
+                                  : Colors.grey,
+                            ),
                     ),
                   ),
                   const SizedBox(
@@ -316,8 +304,12 @@ class _DetailPageState extends State<DetailPage> {
                   ),
                   Expanded(
                     child: GestureDetector(
-                      onTap: (){
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const CartPage(),));
+                      onTap: () {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const CartPage(),
+                            ));
                       },
                       child: Container(
                         decoration: BoxDecoration(

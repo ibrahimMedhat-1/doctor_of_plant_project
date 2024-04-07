@@ -3,6 +3,7 @@ import 'package:doctor_of_plant_project/view/screens/onboarding_screen.dart';
 import 'package:doctor_of_plant_project/view/screens/profile/profile_cubit/profile_cubit.dart';
 import 'package:doctor_of_plant_project/view_model/cubits/auth_cubit/auth_cubit.dart';
 import 'package:doctor_of_plant_project/view_model/cubits/cart_cubit/cart_cubit.dart';
+import 'package:doctor_of_plant_project/view_model/cubits/favourites_cubit/favourites_cubit.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => AuthCubit()),
         BlocProvider(create: (context) => CartCubit()),
+        BlocProvider(create: (context) => FavouritesCubit()),
         BlocProvider(
           create: (context) => ProfileCubit()..initialize(),
         ),

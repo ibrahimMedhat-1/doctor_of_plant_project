@@ -21,9 +21,10 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => AuthCubit()),
-        BlocProvider( create: (context) => CartCubit()..getCartItems(),),
-        BlocProvider(  create: (context) => ProfileCubit()..initialize(),),
-
+        BlocProvider(create: (context) => CartCubit()),
+        BlocProvider(
+          create: (context) => ProfileCubit()..initialize(),
+        ),
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,

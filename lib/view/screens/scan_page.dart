@@ -3,22 +3,17 @@ import 'package:doctor_of_plant_project/view_model/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../view_model/utils/constants.dart';
-
 class ScanPage extends StatelessWidget {
   const ScanPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery
-        .of(context)
-        .size;
+    Size size = MediaQuery.of(context).size;
 
     return BlocProvider(
       create: (context) => ScanCubit(),
       child: BlocConsumer<ScanCubit, ScanState>(
-        listener: (context, state) {
-        },
+        listener: (context, state) {},
         builder: (context, state) {
           final ScanCubit cubit = ScanCubit.get(context);
           return Scaffold(
@@ -48,7 +43,6 @@ class ScanPage extends StatelessWidget {
                             ),
                           ),
                         ),
-
                       ],
                     )),
                 Positioned(
@@ -64,42 +58,41 @@ class ScanPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          state is UploadImageLoading? const Center(
-                            child: CircularProgressIndicator(),
-                          ):  state is UploadImage?
-                          Image.network(scanImage!,height: 300,)
-                              :
-                         const Text("No Image Selected"),
-
+                          state is UploadImageLoading
+                              ? const Center(
+                                  child: CircularProgressIndicator(),
+                                )
+                              : cubit.scanImage.isNotEmpty
+                                  ? Image.network(
+                                      cubit.scanImage,
+                                      height: 300,
+                                      errorBuilder: (context, error, stackTrace) => Icon(Icons.error),
+                                    )
+                                  : const Text("No Image Selected"),
                           const SizedBox(
                             height: 20,
                           ),
-
                           InkWell(
-                            onTap: (){
-                              cubit.pickImageFromGallery();
-                            },
-                            child:Container(
-                              width: size.width*0.6,
-                              decoration: BoxDecoration(
-                                color: Constants.primaryColor,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 5, vertical: 10),
-                              child: const Center(
-                                child: Text(
-                                  'Upload Image',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18.0,
+                              onTap: () {
+                                cubit.pickImageFromGallery();
+                              },
+                              child: Container(
+                                width: size.width * 0.6,
+                                decoration: BoxDecoration(
+                                  color: Constants.primaryColor,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                                child: const Center(
+                                  child: Text(
+                                    'Upload Image',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18.0,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            )
-                          ),
-
-
+                              )),
                           const SizedBox(
                             height: 20,
                           ),
@@ -124,6 +117,7 @@ class ScanPage extends StatelessWidget {
     );
   }
 }
+
 class MyImageWidget extends StatelessWidget {
   final String imageUrl;
 
@@ -140,8 +134,7 @@ class MyImageWidget extends StatelessWidget {
         return Center(
           child: CircularProgressIndicator(
             value: loadingProgress.expectedTotalBytes != null
-                ? loadingProgress.cumulativeBytesLoaded /
-                loadingProgress.expectedTotalBytes!
+                ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
                 : null,
           ),
         );

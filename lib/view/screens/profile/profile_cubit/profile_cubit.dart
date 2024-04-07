@@ -1,13 +1,14 @@
 import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doctor_of_plant_project/models/user_model.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../../view_model/utils/colors.dart';
-import 'package:image_picker/image_picker.dart';
 
 part 'profile_state.dart';
 
@@ -23,13 +24,10 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   void updateName(BuildContext context) async {
     emit(ChangeInformationLoading());
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(Constants.userModel!.id)
-        .update({
+    await FirebaseFirestore.instance.collection('users').doc(Constants.userModel!.id).update({
       'name': nameController.text.toString(),
     });
-    Constants.userModel!.name = nameController.text.toString();
+    userModel!.name = nameController.text.toString();
     await getMyData();
     emit(ChangeInformation());
     Navigator.pop(context);
@@ -80,10 +78,10 @@ class ProfileCubit extends Cubit<ProfileState> {
   String? path;
 
   Future<void> pickImageFromGallery() async {
+    emit(ChangeImageLoading());
+
     if (kIsWeb) {
-      await ImagePicker()
-          .pickImage(source: ImageSource.gallery)
-          .then((value) async {
+      await ImagePicker().pickImage(source: ImageSource.gallery).then((value) async {
         final image = await value!.readAsBytes();
         await FirebaseStorage.instance
             .ref()
@@ -98,9 +96,7 @@ class ProfileCubit extends Cubit<ProfileState> {
                 .collection('users')
                 .doc(Constants.userModel!.id!)
                 .update({'image': value}).then((value) async {
-              profileImage = Constants.userModel!.image!;
-              print(profileImage);
-              emit(ChangeImage());
+              await getMyData();
             });
           });
         });
@@ -109,7 +105,6 @@ class ProfileCubit extends Cubit<ProfileState> {
       final picker = ImagePicker();
 
       await picker.pickImage(source: ImageSource.gallery).then((value) async {
-        emit(ChangeImageLoading());
         FirebaseStorage.instance
             .ref()
             .child('ProfileImage/${Constants.userModel!.id!}')
@@ -119,26 +114,20 @@ class ProfileCubit extends Cubit<ProfileState> {
             await FirebaseFirestore.instance
                 .collection("users")
                 .doc(Constants.userModel!.id!)
-                .update({'image': value});
+                .update({'image': value}).then((value) async {
+              await getMyData();
+            });
           });
         });
-        await getMyData();
-        emit(ChangeImage());
       });
     }
   }
 
+  UserModel? userModel;
   Future<void> getMyData() async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(Constants.userModel!.id)
-        .get()
-        .then((value) {
-      Constants.userModel = UserModel.fromJson(value.data());
+    await FirebaseFirestore.instance.collection('users').doc(Constants.userModel!.id).get().then((value) {
+      userModel = UserModel.fromJson(value.data());
       emit(GetMYData());
     });
   }
-
-  String profileImage = Constants.userModel?.image ?? '';
-
 }

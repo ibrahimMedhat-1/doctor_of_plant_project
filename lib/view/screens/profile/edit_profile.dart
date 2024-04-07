@@ -39,17 +39,14 @@ class EditProfile extends StatelessWidget {
                                   width: 5.0,
                                 ),
                               ),
-                              child: Constants.userModel!.image == ""
+                              child: cubit.userModel == null
                                   ? const CircleAvatar(
                                       radius: 60,
-                                      backgroundImage: ExactAssetImage(
-                                          'assets/images/profile.png'),
+                                      backgroundImage: ExactAssetImage('assets/images/profile.png'),
                                     )
                                   : CircleAvatar(
                                       radius: 60,
-                                      backgroundImage: NetworkImage(Constants
-                                          .userModel!.image
-                                          .toString()),
+                                      backgroundImage: NetworkImage(cubit.userModel!.image.toString()),
                                     )),
                           Container(
                             color: Constants.primaryColor,
@@ -76,7 +73,9 @@ class EditProfile extends StatelessWidget {
                   decoration: const InputDecoration(hintText: "Name"),
                 ),
               ),
-              const SizedBox(height: 50,),
+              const SizedBox(
+                height: 50,
+              ),
               state is ChangeInformationLoading
                   ? const Center(
                       child: CircularProgressIndicator(),
@@ -88,13 +87,12 @@ class EditProfile extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15.0),
                         child: Container(
-                          width: size.width*0.6,
+                          width: size.width * 0.6,
                           decoration: BoxDecoration(
                             color: Constants.primaryColor,
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 10),
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                           child: const Center(
                             child: Text(
                               'Save',

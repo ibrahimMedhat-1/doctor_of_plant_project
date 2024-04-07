@@ -36,12 +36,13 @@ class CartCubit extends Cubit<CartState> {
       cartItems.clear();
       price = 0;
       for (var element in value.docs) {
-        DocumentReference<Map<String, dynamic>> document =
-            await element.data()['reference'];
-        QuerySnapshot<Map<String, dynamic>> isFav = await FirebaseFirestore.instance.collection("users").
-        doc(Constants.userModel!.id)
+        DocumentReference<Map<String, dynamic>> document = await element.data()['reference'];
+        QuerySnapshot<Map<String, dynamic>> isFav = await FirebaseFirestore.instance
+            .collection("users")
+            .doc(Constants.userModel!.id)
             .collection("favourite")
-            .where("reference",isEqualTo: element.data()['reference']).get();
+            .where("reference", isEqualTo: element.data()['reference'])
+            .get();
 
         print(
           document.path.split("/").first,
@@ -49,11 +50,11 @@ class CartCubit extends Cubit<CartState> {
         await document.get().then((value) {
           price += value.data()!['price'];
           if (document.path.split("/").first == "fertilizer") {
-            cartItems.add(FertilizerModel.fromJson(value.data(),isCart: true,isFavorated:isFav.docs.isNotEmpty ));
-
+            cartItems.add(
+                FertilizerModel.fromJson(value.data(), isCart: true, isFavorated: isFav.docs.isNotEmpty));
           } else {
-            cartItems.add(PlantModel.fromJson(value.data(),isCart: true,isFavorated:isFav.docs.isNotEmpty));
-
+            cartItems
+                .add(PlantModel.fromJson(value.data(), isCart: true, isFavorated: isFav.docs.isNotEmpty));
           }
         });
       }

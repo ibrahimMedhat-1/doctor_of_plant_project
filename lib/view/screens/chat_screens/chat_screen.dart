@@ -3,6 +3,8 @@ import 'package:doctor_of_plant_project/view_model/utils/colors.dart';
 import 'package:doctor_of_plant_project/view_model/utils/navigation.dart';
 import 'package:flutter/material.dart';
 
+import '../chatbot/view/chatbot_view.dart';
+
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key});
 
@@ -58,7 +60,7 @@ class ChatScreen extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     Navigation.pushAndReplacement(
-                        context, const GetStartedScreen());
+                        context, const ChatBotPage());
                   },
                   style: ElevatedButton.styleFrom(
                       fixedSize: const Size(170, 50),

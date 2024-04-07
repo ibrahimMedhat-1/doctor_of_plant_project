@@ -1,4 +1,3 @@
-import 'package:doctor_of_plant_project/view/screens/chat_screens/get_started_screen.dart';
 import 'package:doctor_of_plant_project/view_model/utils/colors.dart';
 import 'package:doctor_of_plant_project/view_model/utils/navigation.dart';
 import 'package:flutter/material.dart';

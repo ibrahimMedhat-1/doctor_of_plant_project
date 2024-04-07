@@ -46,7 +46,7 @@ class EditProfile extends StatelessWidget {
                                     )
                                   : CircleAvatar(
                                       radius: 60,
-                                      backgroundImage: NetworkImage(cubit.userModel!.image.toString()),
+                                      backgroundImage: NetworkImage(cubit.userModel.image.toString()),
                                     )),
                           Container(
                             color: Constants.primaryColor,

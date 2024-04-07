@@ -15,7 +15,7 @@ class ChatbotCubit extends Cubit<ChatbotState> {
   final TextEditingController messageController = TextEditingController();
   ScrollController scrollController = ScrollController();
   bool isTyping = false;
-  String myApiKey = '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';
+  // String myApiKey = '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';
 
   void sendMessage(String message) async {
     chatMessage.add(ChatMessage(text: message, isUser: true));

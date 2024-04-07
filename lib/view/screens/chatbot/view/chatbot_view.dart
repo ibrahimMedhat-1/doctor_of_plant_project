@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../manager/chatbot_cubit.dart';
 
 class ChatBotPage extends StatelessWidget {
-  const ChatBotPage({Key? key}) : super(key: key);
+  const ChatBotPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,17 +21,17 @@ class ChatBotPage extends StatelessWidget {
           ChatbotCubit cubit = ChatbotCubit.get(context);
           return Scaffold(
             appBar: AppBar(
-              title: const Row(
+              title:  Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ImageIcon(
-                    AssetImage("assets/images/icons8-chatgpt-64.png"),
-                  ),
-                  SizedBox(
+
+                  Image.asset("assets/images/icons8-chatgpt-64.png",scale: 2,),
+
+                  const SizedBox(
                     width: 2,
                   ),
-                  Text("Chatbot"),
-                  SizedBox(
+                  const Text("Chatbot"),
+                  const SizedBox(
                     width: 2,
                   ),
                 ],

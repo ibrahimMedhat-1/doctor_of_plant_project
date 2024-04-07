@@ -18,10 +18,10 @@ class ChatBubble extends StatelessWidget {
         children: [
           if (!isUser)
              Padding(
-              padding: EdgeInsets.only(top: 25.0),
+              padding: const EdgeInsets.only(top: 25.0),
               child: CircleAvatar(
                 backgroundColor:  Constants.primaryColor,
-                child: Icon(
+                child: const Icon(
                   Icons.person,
                   color: Colors.white,
                 ),
@@ -58,10 +58,10 @@ class ChatBubble extends StatelessWidget {
           ),
           if (isUser)
              Padding(
-              padding: EdgeInsets.only(bottom: 40.0, left: 5),
+              padding: const EdgeInsets.only(bottom: 40.0, left: 5),
               child: CircleAvatar(
                 backgroundColor:  Constants.primaryColor,
-                child: Icon(
+                child: const Icon(
                   Icons.person,
                   color: Colors.white,
                 ),

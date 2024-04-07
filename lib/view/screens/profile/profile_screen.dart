@@ -1,9 +1,11 @@
 import 'package:doctor_of_plant_project/view/screens/profile/profile_cubit/profile_cubit.dart';
 import 'package:doctor_of_plant_project/view_model/utils/colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../components/profile_widget.dart';
+import '../sign_in_screen.dart';
 import 'edit_profile.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -43,7 +45,7 @@ class ProfilePage extends StatelessWidget {
                             )
                           : CircleAvatar(
                               radius: 60,
-                              backgroundImage: NetworkImage(cubit.userModel!.image.toString()),
+                              backgroundImage: NetworkImage(cubit.userModel.image.toString()),
                             )),
                   const SizedBox(
                     height: 10,
@@ -54,7 +56,7 @@ class ProfilePage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          cubit.userModel!.name.toString(),
+                          cubit.userModel.name.toString(),
                           style: TextStyle(
                             color: Constants.blackColor,
                             fontSize: 20,
@@ -65,7 +67,7 @@ class ProfilePage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    cubit.userModel!.email.toString(),
+                    cubit.userModel.email.toString(),
                     style: TextStyle(
                       color: Constants.blackColor.withOpacity(.3),
                     ),
@@ -90,7 +92,12 @@ class ProfilePage extends StatelessWidget {
                             icon: Icons.person,
                             title: 'My Profile'),
                         ProfileWidget(
-                          onTap: () {},
+                          onTap: () {
+                            FirebaseAuth.instance.signOut().then((value) => {
+                            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>const SignIn()), (route) => false)
+
+                            });
+                          },
                           icon: Icons.logout,
                           title: 'Log Out',
                         ),

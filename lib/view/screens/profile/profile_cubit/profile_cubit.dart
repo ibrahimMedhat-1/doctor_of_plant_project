@@ -27,7 +27,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     await FirebaseFirestore.instance.collection('users').doc(Constants.userModel!.id).update({
       'name': nameController.text.toString(),
     });
-    userModel!.name = nameController.text.toString();
+    userModel.name = nameController.text.toString();
     Constants.userModel!.name = nameController.text.toString();
     await getMyData();
     emit(ChangeInformation());

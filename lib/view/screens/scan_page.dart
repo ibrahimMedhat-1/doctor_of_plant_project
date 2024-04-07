@@ -66,7 +66,7 @@ class ScanPage extends StatelessWidget {
                                   ? Image.network(
                                       cubit.scanImage,
                                       height: 300,
-                                      errorBuilder: (context, error, stackTrace) => Icon(Icons.error),
+                                      errorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
                                     )
                                   : const Text("No Image Selected"),
                           const SizedBox(

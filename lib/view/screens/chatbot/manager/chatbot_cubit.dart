@@ -1,8 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import "package:http/http.dart" as http;
+import 'package:flutter_gemini/flutter_gemini.dart';
 
 import '../../../../models/chatbot_model.dart';
 
@@ -24,46 +22,21 @@ class ChatbotCubit extends Cubit<ChatbotState> {
     reversedChatMessage = chatMessage.reversed.toList();
     isTyping = true;
     emit(SendChatBotMessageLoading());
-    await http
-        .post(
-      Uri.parse(
-        "https://api.openai.com/v1/chat/completions",
-      ),
-      headers: {
-        'Content-Type': 'application/json',
-        "Authorization": "Bearer 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",
-      },
-      body: json.encode({
-        "model": "gpt-3.5-turbo-0613",
-        "stream": true,
-        "messages": [
-          {"role": "system", "content": "You are a helpful assistant."},
-          {"role": "user", "content": message}
-        ],
-        'max_tokens': 200,
-      }),
-    )
-        .then((value) async {
-      if (value.statusCode == 200) {
-        final jsonResponse = await jsonDecode(value.body);
-        debugPrint(jsonResponse.toString());
+    final gemini = Gemini.instance;
 
-        chatMessage.add(ChatMessage(text: jsonResponse['choices'][0]['message']['content'], isUser: false));
-        emit(SendMessage());
-        scrollController.animateTo(
-          scrollController.position.minScrollExtent,
-          duration: const Duration(milliseconds: 1),
-          curve: Curves.bounceIn,
-        );
-      } else {
-        debugPrint("Request failed with status ${value.body}");
-      }
+    await gemini.text(message).then((value) {
+      chatMessage.add(ChatMessage(text: value!.output!, isUser: false));
       isTyping = false;
-      emit(SendChatBotMessageSuccessfully());
-    }).catchError((onError) {
-      emit(SendChatBotMessageError());
+      scrollController.animateTo(
+        scrollController.position.minScrollExtent,
+        duration: const Duration(milliseconds: 1),
+        curve: Curves.bounceIn,
+      );
+    })
 
-    });
+        /// or value?.content?.parts?.last.text
+        .catchError((e) => print(e));
     reversedChatMessage = chatMessage.reversed.toList();
+    emit(SendMessage());
   }
 }

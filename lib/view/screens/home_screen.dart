@@ -7,7 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../models/plants.dart';
-import '../../view_model/utils/constants.dart';
 import '../components/plant_widget.dart';
 import 'detail_screen.dart';
 
@@ -46,11 +45,18 @@ class _HomePageState extends State<HomePage> {
         ..getPlants()
         ..getFertilizers(),
       child: BlocConsumer<HomeCubit, HomeState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is IsSearching) {
+            HomeCubit.get(context).fertilizersShowList = HomeCubit.get(context).fertilizersSearch;
+            HomeCubit.get(context).plantsShowList = HomeCubit.get(context).plantsSearch;
+          } else {
+            HomeCubit.get(context).fertilizersShowList = HomeCubit.get(context).fertilizers;
+            HomeCubit.get(context).plantsShowList = HomeCubit.get(context).plants;
+          }
+        },
         builder: (context, state) {
           print('object');
           final HomeCubit cubit = HomeCubit.get(context);
-          plantListFav = cubit.plants;
           return Scaffold(
             body: SingleChildScrollView(
               child: Column(
@@ -78,10 +84,18 @@ class _HomePageState extends State<HomePage> {
                                 Icons.search,
                                 color: Colors.black54.withOpacity(.6),
                               ),
-                              const Expanded(
+                              Expanded(
                                   child: TextField(
                                 showCursor: false,
-                                decoration: InputDecoration(
+                                controller: cubit.searchController,
+                                onChanged: (value) {
+                                  if (value.isEmpty) {
+                                    cubit.emit(IsNotSearching());
+                                  } else {
+                                    cubit.search(value);
+                                  }
+                                },
+                                decoration: const InputDecoration(
                                   hintText: 'Search Plant',
                                   border: InputBorder.none,
                                   focusedBorder: InputBorder.none,
@@ -118,12 +132,9 @@ class _HomePageState extends State<HomePage> {
                                 plantTypes[index],
                                 style: TextStyle(
                                   fontSize: 16.0,
-                                  fontWeight: selectedIndex == index
-                                      ? FontWeight.bold
-                                      : FontWeight.w300,
-                                  color: selectedIndex == index
-                                      ? Constants.primaryColor
-                                      : Constants.blackColor,
+                                  fontWeight: selectedIndex == index ? FontWeight.bold : FontWeight.w300,
+                                  color:
+                                      selectedIndex == index ? Constants.primaryColor : Constants.blackColor,
                                 ),
                               ),
                             ),
@@ -133,7 +144,7 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(
                     height: size.height * .3,
                     child: ListView.builder(
-                        itemCount: cubit.fertilizers.length,
+                        itemCount: cubit.fertilizersShowList.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
@@ -142,15 +153,13 @@ class _HomePageState extends State<HomePage> {
                                   context,
                                   PageTransition(
                                       child: DetailPage(
-                                        fertilizerModel:
-                                            cubit.fertilizers[index],
+                                        fertilizerModel: cubit.fertilizersShowList[index],
                                       ),
                                       type: PageTransitionType.bottomToTop));
                             },
                             child: Container(
                               width: 200,
-                              margin:
-                                  const EdgeInsets.symmetric(horizontal: 10),
+                              margin: const EdgeInsets.symmetric(horizontal: 10),
                               decoration: BoxDecoration(
                                 color: Constants.primaryColor.withOpacity(.8),
                                 borderRadius: BorderRadius.circular(20),
@@ -170,22 +179,17 @@ class _HomePageState extends State<HomePage> {
                                       child: IconButton(
                                           onPressed: () {
                                             setState(() {
-                                              if (cubit.fertilizers[index]
-                                                  .isFavorated) {
-                                                cubit.removeFromFav(cubit
-                                                    .fertilizers[index].ref!);
+                                              if (cubit.fertilizersShowList[index].isFavorated) {
+                                                cubit.removeFromFav(cubit.fertilizersShowList[index].ref!);
                                               } else {
-                                                cubit.addToFav(cubit
-                                                    .fertilizers[index].ref!);
+                                                cubit.addToFav(cubit.fertilizersShowList[index].ref!);
                                               }
-                                              cubit.fertilizers[index]
-                                                      .isFavorated =
-                                                  !cubit.fertilizers[index]
-                                                      .isFavorated;
+                                              cubit.fertilizersShowList[index].isFavorated =
+                                                  !cubit.fertilizersShowList[index].isFavorated;
                                             });
                                           },
                                           icon: Icon(
-                                            cubit.fertilizers[index].isFavorated
+                                            cubit.fertilizersShowList[index].isFavorated
                                                 ? Icons.favorite
                                                 : Icons.favorite_border,
                                             color: Constants.primaryColor,
@@ -198,25 +202,23 @@ class _HomePageState extends State<HomePage> {
                                     right: 50,
                                     top: 50,
                                     bottom: 50,
-                                    child: Image.network(
-                                        cubit.fertilizers[index].image ?? ''),
+                                    child: Image.network(cubit.fertilizersShowList[index].image ?? ''),
                                   ),
                                   Positioned(
                                     bottom: 15,
                                     left: 20,
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          cubit.fertilizers[index].type ?? '',
+                                          cubit.fertilizersShowList[index].type ?? '',
                                           style: const TextStyle(
                                             color: Colors.white70,
                                             fontSize: 16,
                                           ),
                                         ),
                                         Text(
-                                          cubit.fertilizers[index].name ?? '',
+                                          cubit.fertilizersShowList[index].name ?? '',
                                           style: const TextStyle(
                                             color: Colors.white70,
                                             fontSize: 15,
@@ -230,19 +232,14 @@ class _HomePageState extends State<HomePage> {
                                     bottom: 15,
                                     right: 20,
                                     child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10, vertical: 2),
+                                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
                                       decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       child: Text(
-                                        r'$' +
-                                            cubit.fertilizers[index].price
-                                                .toString(),
-                                        style: TextStyle(
-                                            color: Constants.primaryColor,
-                                            fontSize: 16),
+                                        r'$' + cubit.fertilizersShowList[index].price.toString(),
+                                        style: TextStyle(color: Constants.primaryColor, fontSize: 16),
                                       ),
                                     ),
                                   ),
@@ -253,8 +250,7 @@ class _HomePageState extends State<HomePage> {
                         }),
                   ),
                   Container(
-                    padding:
-                        const EdgeInsets.only(left: 16, bottom: 20, top: 20),
+                    padding: const EdgeInsets.only(left: 16, bottom: 20, top: 20),
                     child: const Text(
                       'New Plants',
                       style: TextStyle(
@@ -267,22 +263,20 @@ class _HomePageState extends State<HomePage> {
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     height: size.height * .5,
                     child: ListView.builder(
-                        itemCount: cubit.plants.length,
+                        itemCount: cubit.plantsShowList.length,
                         scrollDirection: Axis.vertical,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (BuildContext context, int index) {
-                          print(cubit.plants.length);
+                          print(cubit.plantsShowList.length);
                           return GestureDetector(
                               onTap: () {
                                 Navigator.push(
                                     context,
                                     PageTransition(
-                                        child: DetailPage(
-                                            plant: cubit.plants[index]),
+                                        child: DetailPage(plant: cubit.plantsShowList[index]),
                                         type: PageTransitionType.bottomToTop));
                               },
-                              child: PlantWidget(
-                                  index: index, plantList: cubit.plants));
+                              child: PlantWidget(index: index, plantList: cubit.plantsShowList));
                         }),
                   ),
                 ],

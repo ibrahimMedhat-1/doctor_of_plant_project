@@ -28,6 +28,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       'name': nameController.text.toString(),
     });
     userModel!.name = nameController.text.toString();
+    Constants.userModel!.name = nameController.text.toString();
     await getMyData();
     emit(ChangeInformation());
     Navigator.pop(context);
@@ -123,10 +124,11 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  UserModel? userModel;
+  UserModel userModel = Constants.userModel!;
   Future<void> getMyData() async {
     await FirebaseFirestore.instance.collection('users').doc(Constants.userModel!.id).get().then((value) {
       userModel = UserModel.fromJson(value.data());
+      Constants.userModel = UserModel.fromJson(value.data());
       emit(GetMYData());
     });
   }

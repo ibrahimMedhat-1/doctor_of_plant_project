@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../models/fertilizer_model.dart';
@@ -11,25 +12,33 @@ class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(HomeInitial());
 
   static HomeCubit get(context) => BlocProvider.of(context);
+  List<PlantModel> plantsShowList = [];
   List<PlantModel> plants = [];
+  List<PlantModel> plantsSearch = [];
+  List<FertilizerModel> fertilizersShowList = [];
   List<FertilizerModel> fertilizers = [];
+  List<FertilizerModel> fertilizersSearch = [];
 
   void getFertilizers() {
     emit(GetAllFertilizersLoading());
-    FirebaseFirestore.instance.collection('fertilizer').get().then((value)async {
+    FirebaseFirestore.instance.collection('fertilizer').get().then((value) async {
       fertilizers.clear();
       for (var element in value.docs) {
-        QuerySnapshot<Map<String, dynamic>> isFav = await FirebaseFirestore.instance.collection("users").
-            doc(Constants.userModel!.id)
-        .collection("favourite")
-        .where("reference",isEqualTo: element.data()["ref"]).get();
-        QuerySnapshot<Map<String, dynamic>> isCart = await FirebaseFirestore.instance.collection("users").
-        doc(Constants.userModel!.id)
+        QuerySnapshot<Map<String, dynamic>> isFav = await FirebaseFirestore.instance
+            .collection("users")
+            .doc(Constants.userModel!.id)
+            .collection("favourite")
+            .where("reference", isEqualTo: element.data()["ref"])
+            .get();
+        QuerySnapshot<Map<String, dynamic>> isCart = await FirebaseFirestore.instance
+            .collection("users")
+            .doc(Constants.userModel!.id)
             .collection("cart")
-            .where("reference",isEqualTo: element.data()["ref"]).get();
+            .where("reference", isEqualTo: element.data()["ref"])
+            .get();
 
-        fertilizers.add(FertilizerModel.fromJson(element.data(),isFavorated: isFav.docs.isNotEmpty,isCart: isCart.docs.isNotEmpty));
-        
+        fertilizers.add(FertilizerModel.fromJson(element.data(),
+            isFavorated: isFav.docs.isNotEmpty, isCart: isCart.docs.isNotEmpty));
       }
       emit(GetAllFertilizersSuccessfully());
     }).catchError((onError) {
@@ -42,20 +51,24 @@ class HomeCubit extends Cubit<HomeState> {
     print('element.data()');
 
     emit(GetAllPlantsLoading());
-    FirebaseFirestore.instance.collection('plants').get().then((value)async {
+    FirebaseFirestore.instance.collection('plants').get().then((value) async {
       plants.clear();
       for (var element in value.docs) {
-        QuerySnapshot<Map<String, dynamic>> isFav = await FirebaseFirestore.instance.collection("users").
-        doc(Constants.userModel!.id)
+        QuerySnapshot<Map<String, dynamic>> isFav = await FirebaseFirestore.instance
+            .collection("users")
+            .doc(Constants.userModel!.id)
             .collection("favourite")
-            .where("reference",isEqualTo: element.data()["ref"]).get();
-        QuerySnapshot<Map<String, dynamic>> isCart = await FirebaseFirestore.instance.collection("users").
-        doc(Constants.userModel!.id)
+            .where("reference", isEqualTo: element.data()["ref"])
+            .get();
+        QuerySnapshot<Map<String, dynamic>> isCart = await FirebaseFirestore.instance
+            .collection("users")
+            .doc(Constants.userModel!.id)
             .collection("cart")
-            .where("reference",isEqualTo: element.data()["ref"]).get();
+            .where("reference", isEqualTo: element.data()["ref"])
+            .get();
 
-        plants.add(PlantModel.fromJson(element.data(),isFavorated: isFav.docs.isNotEmpty,isCart: isCart.docs.isNotEmpty));
-
+        plants.add(PlantModel.fromJson(element.data(),
+            isFavorated: isFav.docs.isNotEmpty, isCart: isCart.docs.isNotEmpty));
       }
       emit(GetAllPlantsSuccessfully());
     }).catchError((onError) {
@@ -65,7 +78,6 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   void addToCart(DocumentReference reference) async {
-
     emit(AddPlantToCartLoading());
     await FirebaseFirestore.instance
         .collection('users')
@@ -76,8 +88,8 @@ class HomeCubit extends Cubit<HomeState> {
       emit(PlantAddedToCart());
     });
   }
-  void addToFav(DocumentReference reference) async {
 
+  void addToFav(DocumentReference reference) async {
     await FirebaseFirestore.instance
         .collection('users')
         .doc(Constants.userModel!.id)
@@ -87,7 +99,8 @@ class HomeCubit extends Cubit<HomeState> {
       emit(PlantAddedToFav());
     });
   }
-  void removeFromFav(DocumentReference reference){
+
+  void removeFromFav(DocumentReference reference) {
     FirebaseFirestore.instance
         .collection('users')
         .doc(Constants.userModel!.id)
@@ -95,9 +108,23 @@ class HomeCubit extends Cubit<HomeState> {
         .doc(reference.id)
         .delete();
     emit(removedFromFav());
-
   }
-  bool toggleIsFavorated(bool isFavorited) {
-    return !isFavorited;
+
+  TextEditingController searchController = TextEditingController();
+  void search(String value) {
+    emit(IsSearching());
+    fertilizersSearch.clear();
+    plantsSearch.clear();
+    for (FertilizerModel fertilizerModel in fertilizers) {
+      if (fertilizerModel.name.toString().toLowerCase().contains(value.toLowerCase())) {
+        fertilizersSearch.add(fertilizerModel);
+      }
+    }
+    for (PlantModel plantModel in plants) {
+      if (plantModel.name.toString().toLowerCase().contains(value.toLowerCase())) {
+        plantsSearch.add(plantModel);
+      }
+    }
+    emit(IsSearching());
   }
 }

@@ -1,3 +1,1 @@
-import '../../models/plant_model.dart';
-
-List<PlantModel>? plantListFav;
+// List<PlantModel>? plantListFav;

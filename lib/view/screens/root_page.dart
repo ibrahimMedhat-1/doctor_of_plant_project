@@ -1,6 +1,6 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:doctor_of_plant_project/models/plant_model.dart';
-import 'package:doctor_of_plant_project/view/screens/profile_screen.dart';
+import 'package:doctor_of_plant_project/view/screens/profile/profile_screen.dart';
 import 'package:doctor_of_plant_project/view/screens/scan_page.dart';
 import 'package:doctor_of_plant_project/view_model/utils/colors.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +11,7 @@ import 'favourite_screen.dart';
 import 'home_screen.dart';
 
 class RootPage extends StatefulWidget {
-  const RootPage({Key? key}) : super(key: key);
+  const RootPage({super.key});
 
   @override
   State<RootPage> createState() => _RootPageState();
@@ -24,10 +24,10 @@ class _RootPageState extends State<RootPage> {
   int _bottomNavIndex = 0;
 
   //List of the pages
-  List<Widget> _widgetOptions = [
+  final List<Widget> _widgetOptions = [
     const HomePage(),
-    FavoritePage(),
-    CartPage(
+    const FavoritePage(),
+    const CartPage(
 
     ),
     const ProfilePage(),

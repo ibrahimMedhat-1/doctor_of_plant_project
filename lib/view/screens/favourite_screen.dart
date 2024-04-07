@@ -1,4 +1,3 @@
-import 'package:doctor_of_plant_project/models/plant_model.dart';
 import 'package:doctor_of_plant_project/view_model/cubits/favourites_cubit/favourites_cubit.dart';
 import 'package:doctor_of_plant_project/view_model/utils/colors.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +7,8 @@ import '../components/plant_widget.dart';
 
 class FavoritePage extends StatelessWidget {
   const FavoritePage({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

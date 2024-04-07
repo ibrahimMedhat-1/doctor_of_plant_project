@@ -1,5 +1,6 @@
 import 'package:doctor_of_plant_project/firebase_options.dart';
 import 'package:doctor_of_plant_project/view/screens/onboarding_screen.dart';
+import 'package:doctor_of_plant_project/view/screens/profile/profile_cubit/profile_cubit.dart';
 import 'package:doctor_of_plant_project/view_model/cubits/auth_cubit/auth_cubit.dart';
 import 'package:doctor_of_plant_project/view_model/cubits/cart_cubit/cart_cubit.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -21,11 +22,12 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => AuthCubit()),
         BlocProvider( create: (context) => CartCubit()..getCartItems(),),
+        BlocProvider(  create: (context) => ProfileCubit()..initialize(),),
 
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Onboarding Screen',
+        title: 'Doctor of Plant',
         home: OnboardingScreen(),
       ),
     );

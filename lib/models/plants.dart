@@ -167,13 +167,13 @@ class Plant {
 
   //Get the favorated items
   static List<Plant> getFavoritedPlants(){
-    List<Plant> _travelList = Plant.plantList;
-    return _travelList.where((element) => element.isFavorated == true).toList();
+    List<Plant> travelList = Plant.plantList;
+    return travelList.where((element) => element.isFavorated == true).toList();
   }
 
   //Get the cart items
   static List<Plant> addedToCartPlants(){
-    List<Plant> _selectedPlants = Plant.plantList;
-    return _selectedPlants.where((element) => element.isSelected == true).toList();
+    List<Plant> selectedPlants = Plant.plantList;
+    return selectedPlants.where((element) => element.isSelected == true).toList();
   }
 }

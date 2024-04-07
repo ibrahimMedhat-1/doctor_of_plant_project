@@ -1,4 +1,3 @@
-import 'package:doctor_of_plant_project/models/plant_model.dart';
 import 'package:doctor_of_plant_project/view_model/cubits/cart_cubit/cart_cubit.dart';
 import 'package:doctor_of_plant_project/view_model/utils/colors.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +8,7 @@ import '../components/plant_widget.dart';
 class CartPage extends StatelessWidget {
 
 
-  const CartPage({Key? key, }) : super(key: key);
+  const CartPage({super.key, });
 
   @override
   Widget build(BuildContext context) {

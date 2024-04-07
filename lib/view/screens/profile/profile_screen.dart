@@ -1,13 +1,16 @@
+import 'package:doctor_of_plant_project/view/screens/profile/profile_cubit/profile_cubit.dart';
 import 'package:doctor_of_plant_project/view_model/utils/colors.dart';
 import 'package:flutter/material.dart';
 
-import '../components/profile_widget.dart';
+import '../../components/profile_widget.dart';
+import 'edit_profile.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    ProfileCubit.get(context).getMyData();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         body: Padding(
@@ -18,25 +21,32 @@ class ProfilePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                width: 150,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: Constants.primaryColor.withOpacity(.5),
-                    width: 5.0,
+                  width: 150,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Constants.primaryColor.withOpacity(.5),
+                      width: 5.0,
+                    ),
                   ),
-                ),
-                child: const CircleAvatar(
-                  radius: 60,
-                  backgroundImage: ExactAssetImage('assets/images/profile.jpg'),
-                ),
-              ),
+                  child: Constants.userModel!.image == ""
+                      ? const CircleAvatar(
+                          radius: 60,
+                          backgroundImage:
+                              ExactAssetImage('assets/images/profile.png'),
+                        )
+                      : CircleAvatar(
+                          radius: 60,
+                          backgroundImage: NetworkImage(
+                              Constants.userModel!.image.toString()),
+                        )),
               const SizedBox(
                 height: 10,
               ),
               SizedBox(
-                width: size.width * .3,
+                width: size.width * .5,
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       Constants.userModel!.name.toString(),
@@ -52,7 +62,7 @@ class ProfilePage extends StatelessWidget {
                 ),
               ),
               Text(
-                  Constants.userModel!.email.toString(),
+                Constants.userModel!.email.toString(),
                 style: TextStyle(
                   color: Constants.blackColor.withOpacity(.3),
                 ),
@@ -63,30 +73,21 @@ class ProfilePage extends StatelessWidget {
               SizedBox(
                 height: size.height * .7,
                 width: size.width,
-                child: const Column(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     ProfileWidget(
-                      icon: Icons.person,
-                      title: 'My Profile',
-                    ),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const EditProfile(),
+                              ));
+                        },
+                        icon: Icons.person,
+                        title: 'My Profile'),
                     ProfileWidget(
-                      icon: Icons.settings,
-                      title: 'Settings',
-                    ),
-                    ProfileWidget(
-                      icon: Icons.notifications,
-                      title: 'Notifications',
-                    ),
-                    ProfileWidget(
-                      icon: Icons.chat,
-                      title: 'FAQs',
-                    ),
-                    ProfileWidget(
-                      icon: Icons.share,
-                      title: 'Share',
-                    ),
-                    ProfileWidget(
+                      onTap: () {},
                       icon: Icons.logout,
                       title: 'Log Out',
                     ),

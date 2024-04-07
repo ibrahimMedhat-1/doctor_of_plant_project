@@ -2,7 +2,6 @@ import 'package:doctor_of_plant_project/models/fertilizer_model.dart';
 import 'package:doctor_of_plant_project/models/plant_model.dart';
 import 'package:doctor_of_plant_project/view/screens/cart_screen.dart';
 import 'package:doctor_of_plant_project/view_model/cubits/cart_cubit/cart_cubit.dart';
-import 'package:doctor_of_plant_project/view_model/cubits/home_cubit/home_cubit.dart';
 import 'package:doctor_of_plant_project/view_model/cubits/product_cubit/product_cubit.dart';
 import 'package:doctor_of_plant_project/view_model/utils/colors.dart';
 import 'package:doctor_of_plant_project/view_model/utils/navigation.dart';

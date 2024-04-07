@@ -1,4 +1,3 @@
-import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doctor_of_plant_project/models/fertilizer_model.dart';
 import 'package:doctor_of_plant_project/models/plant_model.dart';

@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
 class SupplementScreen extends StatefulWidget {
-  const SupplementScreen({Key? key}) : super(key: key);
+  const SupplementScreen({super.key});
 
   @override
   State<SupplementScreen> createState() => _SupplementScreenState();

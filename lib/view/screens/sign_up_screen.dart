@@ -8,7 +8,7 @@ import '../../view_model/cubits/auth_cubit/auth_cubit.dart';
 import '../components/custom_text_field.dart';
 
 class SignUp extends StatelessWidget {
-  const SignUp({Key? key}) : super(key: key);
+  const SignUp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +130,7 @@ class SignUp extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       Navigator.pushReplacement(
-                          context, PageTransition(child: SignIn(), type: PageTransitionType.bottomToTop));
+                          context, PageTransition(child: const SignIn(), type: PageTransitionType.bottomToTop));
                     },
                     child: Center(
                       child: Text.rich(

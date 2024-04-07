@@ -1,4 +1,3 @@
-import 'package:doctor_of_plant_project/models/plant_model.dart';
 import 'package:doctor_of_plant_project/view_model/utils/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:page_transition/page_transition.dart';
@@ -7,10 +6,10 @@ import '../screens/detail_screen.dart';
 
 class PlantWidget extends StatelessWidget {
   const PlantWidget({
-    Key? key,
+    super.key,
     required this.index,
     required this.plantList,
-  }) : super(key: key);
+  });
 
   final int index;
   final List<dynamic> plantList;

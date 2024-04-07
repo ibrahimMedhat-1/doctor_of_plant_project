@@ -4,7 +4,7 @@ import 'package:doctor_of_plant_project/view_model/utils/navigation.dart';
 import 'package:flutter/material.dart';
 
 class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({Key? key}) : super(key: key);
+  const OnboardingScreen({super.key});
 
   @override
   State<OnboardingScreen> createState() => _OnboardingScreenState();
@@ -26,7 +26,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             padding: const EdgeInsets.only(right: 20, top: 20),
             child: InkWell(
               onTap: () {
-                Navigation.pushAndReplacement(context, SignIn());
+                Navigation.pushAndReplacement(context, const SignIn());
               }, //to login screen. We will update later
               child: const Text(
                 'Skip',
@@ -94,7 +94,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
                         }
                       } else {
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => SignIn()));
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const SignIn()));
                       }
                     });
                   },
@@ -148,11 +148,11 @@ class createPage extends StatelessWidget {
   final String description;
 
   const createPage({
-    Key? key,
+    super.key,
     required this.image,
     required this.title,
     required this.description,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

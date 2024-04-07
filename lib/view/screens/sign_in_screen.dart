@@ -9,7 +9,7 @@ import '../components/custom_text_field.dart';
 import 'forget_password.dart';
 
 class SignIn extends StatelessWidget {
-  const SignIn({Key? key}) : super(key: key);
+  const SignIn({super.key});
 
   @override
   Widget build(BuildContext context) {

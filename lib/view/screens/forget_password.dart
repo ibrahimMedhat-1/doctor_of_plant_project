@@ -6,7 +6,7 @@ import 'package:page_transition/page_transition.dart';
 import '../components/custom_text_field.dart';
 
 class ForgotPassword extends StatelessWidget {
-  const ForgotPassword({Key? key}) : super(key: key);
+  const ForgotPassword({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +65,7 @@ class ForgotPassword extends StatelessWidget {
                   Navigator.pushReplacement(
                       context,
                       PageTransition(
-                          child: SignIn(),
+                          child: const SignIn(),
                           type: PageTransitionType.bottomToTop));
                 },
                 child: Center(

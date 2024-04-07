@@ -1,4 +1,3 @@
-import 'package:doctor_of_plant_project/models/plant_model.dart';
 import 'package:doctor_of_plant_project/view/screens/chat_screens/chat_screen.dart';
 import 'package:doctor_of_plant_project/view_model/cubits/home_cubit/home_cubit.dart';
 import 'package:doctor_of_plant_project/view_model/utils/colors.dart';
@@ -13,7 +12,7 @@ import '../components/plant_widget.dart';
 import 'detail_screen.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();

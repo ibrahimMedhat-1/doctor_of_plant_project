@@ -1,5 +1,6 @@
 import 'package:doctor_of_plant_project/firebase_options.dart';
 import 'package:doctor_of_plant_project/shared/network/remote/dio_helper.dart';
+import 'package:doctor_of_plant_project/view/screens/chatbot/manager/chatbot_cubit.dart';
 import 'package:doctor_of_plant_project/view/screens/onboarding_screen.dart';
 import 'package:doctor_of_plant_project/view/screens/profile/profile_cubit/profile_cubit.dart';
 import 'package:doctor_of_plant_project/view_model/cubits/auth_cubit/auth_cubit.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => AuthCubit()),
+        BlocProvider(create: (context) => ChatbotCubit()),
         BlocProvider(create: (context) => CartCubit()),
         BlocProvider(create: (context) => FavouritesCubit()),
         BlocProvider(

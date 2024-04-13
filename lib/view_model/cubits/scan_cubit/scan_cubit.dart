@@ -69,7 +69,11 @@ class ScanCubit extends Cubit<ScanState> {
           filename: file.path.split('/').last,
         ),
       }),
-    );
+    ).then((value) {
+      disease = value.data['class'];
+
+      emit(DetectPlantDisease());
+    });
     //
     // var request = http.MultipartRequest('POST', Uri.parse(baseUrl));
     // request.fields['image'] = 'image';
@@ -82,8 +86,7 @@ class ScanCubit extends Cubit<ScanState> {
     // var response = await request.send();
     // var responseData = await response.stream.toBytes();
     //
-    disease = response.data['class'];
-    emit(DetectPlantDisease());
+
     // print(response.data['class']);
   }
 

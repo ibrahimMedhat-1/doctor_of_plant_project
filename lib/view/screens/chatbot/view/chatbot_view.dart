@@ -7,117 +7,118 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../manager/chatbot_cubit.dart';
 
 class ChatBotPage extends StatelessWidget {
-  const ChatBotPage({super.key});
+  final String? search;
+  const ChatBotPage({super.key, this.search});
 
   @override
   Widget build(BuildContext context) {
     final GlobalKey<FormState> formKey = GlobalKey();
-
-    return BlocProvider(
-      create: (context) => ChatbotCubit(),
-      child: BlocConsumer<ChatbotCubit, ChatbotState>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          ChatbotCubit cubit = ChatbotCubit.get(context);
-          return Scaffold(
-            appBar: AppBar(
-              title:  Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-
-                  Image.asset("assets/images/icons8-chatgpt-64.png",scale: 2,),
-
-                  const SizedBox(
-                    width: 2,
-                  ),
-                  const Text("Chatbot"),
-                  const SizedBox(
-                    width: 2,
-                  ),
-                ],
-              ),
-              centerTitle: true,
-            ),
-            body: Column(
+    if (search != null) {
+      ChatbotCubit.get(context).sendMessage('what is $search');
+    }
+    return BlocConsumer<ChatbotCubit, ChatbotState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        ChatbotCubit cubit = ChatbotCubit.get(context);
+        return Scaffold(
+          appBar: AppBar(
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Expanded(
-                  child: ListView.builder(
-                    controller: cubit.scrollController,
-                    reverse: true,
-                    itemBuilder: (context, index) {
-                      final message = cubit.reversedChatMessage[index];
-                      return ChatBubble(
-                        text: message.text,
-                        isUser: message.isUser,
-                      );
-                    },
-                    itemCount: cubit.reversedChatMessage.length,
-                  ),
+                Image.asset(
+                  "assets/images/icons8-chatgpt-64.png",
+                  scale: 2,
                 ),
-                Align(
-                  alignment: Alignment.bottomLeft,
-                  child: TypingIndicator(
-                    showIndicator: cubit.isTyping,
-                  ),
+                const SizedBox(
+                  width: 2,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.07,
-                    child: Form(
-                      key: formKey,
-                      child: TextFormField(
-                        controller: cubit.messageController,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return '';
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          hintText: "Send Message",
-                          hintStyle: Theme.of(context).textTheme.bodyMedium,
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              if (formKey.currentState!.validate()) {
-                                cubit.sendMessage(cubit.messageController.text);
-                                cubit.messageController.clear();
-                              }
-                            },
-                            icon: const Icon(Icons.send),
+                const Text("Chatbot"),
+                const SizedBox(
+                  width: 2,
+                ),
+              ],
+            ),
+            centerTitle: true,
+          ),
+          body: Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  controller: cubit.scrollController,
+                  reverse: true,
+                  itemBuilder: (context, index) {
+                    final message = cubit.reversedChatMessage[index];
+                    return ChatBubble(
+                      text: message.text,
+                      isUser: message.isUser,
+                    );
+                  },
+                  itemCount: cubit.reversedChatMessage.length,
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: TypingIndicator(
+                  showIndicator: cubit.isTyping,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.07,
+                  child: Form(
+                    key: formKey,
+                    child: TextFormField(
+                      controller: cubit.messageController,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return '';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        hintText: "Send Message",
+                        hintStyle: Theme.of(context).textTheme.bodyMedium,
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            if (formKey.currentState!.validate()) {
+                              cubit.sendMessage(cubit.messageController.text);
+                              cubit.messageController.clear();
+                            }
+                          },
+                          icon: const Icon(Icons.send),
+                        ),
+                        errorStyle: const TextStyle(height: 0),
+                        border: const OutlineInputBorder(),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(
+                            color: Constants.primaryColor,
                           ),
-                          errorStyle: const TextStyle(height: 0),
-                          border: const OutlineInputBorder(),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide:  BorderSide(
-                              color: Constants.primaryColor,
-                            ),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(
+                            color: Constants.primaryColor,
                           ),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide:  BorderSide(
-                              color:  Constants.primaryColor,
-                            ),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide:  BorderSide(
-                              color:  Constants.primaryColor,
-                            ),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(
+                            color: Constants.primaryColor,
                           ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ],
-            ),
-          );
-        },
-      ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

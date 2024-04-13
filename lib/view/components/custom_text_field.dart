@@ -11,7 +11,7 @@ class CustomTextfield extends StatelessWidget {
 
   const CustomTextfield({
     super.key,
-     this.icon,
+    this.icon,
     required this.obscureText,
     required this.hintText,
     this.controller,
@@ -21,9 +21,10 @@ class CustomTextfield extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       controller: controller,
       obscureText: obscureText,
+      validator: validator,
       style: TextStyle(
         color: Constants.blackColor,
       ),

@@ -1,3 +1,4 @@
+import 'package:doctor_of_plant_project/view/screens/chatbot/view/chatbot_view.dart';
 import 'package:doctor_of_plant_project/view_model/cubits/scan_cubit/scan_cubit.dart';
 import 'package:doctor_of_plant_project/view_model/utils/colors.dart';
 import 'package:flutter/foundation.dart';
@@ -102,12 +103,21 @@ class ScanPage extends StatelessWidget {
                           const SizedBox(
                             height: 20,
                           ),
-                          Text(
-                            cubit.disease,
-                            style: TextStyle(
-                              color: Constants.primaryColor.withOpacity(.80),
-                              fontWeight: FontWeight.w500,
-                              fontSize: 20,
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ChatBotPage(search: cubit.disease),
+                                  ));
+                            },
+                            child: Text(
+                              cubit.disease,
+                              style: TextStyle(
+                                color: Constants.primaryColor.withOpacity(.80),
+                                fontWeight: FontWeight.w500,
+                                fontSize: 20,
+                              ),
                             ),
                           ),
                         ],

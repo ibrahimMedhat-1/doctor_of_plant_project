@@ -16,3 +16,5 @@ final class LoadModelError extends ScanState {}
 final class ClassifySuccess extends ScanState {}
 
 final class ClassifyError extends ScanState {}
+
+final class DetectPlantDisease extends ScanState {}

@@ -1,5 +1,6 @@
 import 'package:doctor_of_plant_project/view_model/cubits/scan_cubit/scan_cubit.dart';
 import 'package:doctor_of_plant_project/view_model/utils/colors.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -62,13 +63,18 @@ class ScanPage extends StatelessWidget {
                               ? const Center(
                                   child: CircularProgressIndicator(),
                                 )
-                              : cubit.scanImage.isNotEmpty
-                                  ? Image.network(
-                                      cubit.scanImage,
-                                      height: 300,
-                                      errorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
-                                    )
-                                  : const Text("No Image Selected"),
+                              : kIsWeb
+                                  ? cubit.scanImage.isNotEmpty
+                                      ? Image.network(
+                                          cubit.scanImage,
+                                          height: 300,
+                                          errorBuilder: (context, error, stackTrace) =>
+                                              const Icon(Icons.error),
+                                        )
+                                      : const Text("No Image Selected")
+                                  : cubit.imageFile != null
+                                      ? Image.file(cubit.imageFile!)
+                                      : const Text("No Image Selected"),
                           const SizedBox(
                             height: 20,
                           ),
@@ -97,7 +103,7 @@ class ScanPage extends StatelessWidget {
                             height: 20,
                           ),
                           Text(
-                            'the plant descr',
+                            cubit.disease,
                             style: TextStyle(
                               color: Constants.primaryColor.withOpacity(.80),
                               fontWeight: FontWeight.w500,

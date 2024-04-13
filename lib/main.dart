@@ -1,4 +1,5 @@
 import 'package:doctor_of_plant_project/firebase_options.dart';
+import 'package:doctor_of_plant_project/shared/network/remote/dio_helper.dart';
 import 'package:doctor_of_plant_project/view/screens/onboarding_screen.dart';
 import 'package:doctor_of_plant_project/view/screens/profile/profile_cubit/profile_cubit.dart';
 import 'package:doctor_of_plant_project/view_model/cubits/auth_cubit/auth_cubit.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_gemini/flutter_gemini.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await DioHelper.init();
   Gemini.init(apiKey: 'AIzaSyAyq8J9URJd5YiOE02tS8bgnDPYwOrNr-I');
   runApp(const MyApp());
 }

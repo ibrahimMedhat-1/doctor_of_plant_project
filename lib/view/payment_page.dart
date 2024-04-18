@@ -27,9 +27,9 @@ class PaymentPage extends StatelessWidget {
                     ),
                     suffixIcon: IconButton(
                       onPressed: () async {
-                        // // Navigator.push(context, MaterialPageRoute(builder: (builder) => CardScannerPage()));
+                        // Navigator.push(context, MaterialPageRoute(builder: (builder) => CardScannerPage()));
                         // await CardScanner.scanCard().then((value) {
-                        //   // Access the scanned card information
+                        //  Access the scanned card information
                         //   print(value!.cardNumber);
                         //   print(value.expiryDate);
                         //   print(value.cardHolderName);

@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:page_transition/page_transition.dart';
 
-import '../../models/plants.dart';
 import '../components/plant_widget.dart';
 import 'detail_screen.dart';
 
@@ -23,8 +22,6 @@ class _HomePageState extends State<HomePage> {
     int selectedIndex = 0;
     Size size = MediaQuery.of(context).size;
 
-    List<Plant> plantList = Plant.plantList;
-
     //Plants category
     List<String> plantTypes = [
       // 'Recommended',
@@ -34,11 +31,6 @@ class _HomePageState extends State<HomePage> {
       // '-------------------',
       'Supplement',
     ];
-
-    //Toggle Favorite button
-    bool toggleIsFavorated(bool isFavorited) {
-      return !isFavorited;
-    }
 
     return BlocProvider(
       create: (context) => HomeCubit()

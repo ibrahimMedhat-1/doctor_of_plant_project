@@ -259,26 +259,23 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    height: size.height * .5,
-                    child: ListView.builder(
-                        itemCount: cubit.plantsShowList.length,
-                        scrollDirection: Axis.vertical,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (BuildContext context, int index) {
-                          print(cubit.plantsShowList.length);
-                          return GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    PageTransition(
-                                        child: DetailPage(plant: cubit.plantsShowList[index]),
-                                        type: PageTransitionType.bottomToTop));
-                              },
-                              child: PlantWidget(index: index, plantList: cubit.plantsShowList));
-                        }),
-                  ),
+                  ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: cubit.plantsShowList.length,
+                      scrollDirection: Axis.vertical,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (BuildContext context, int index) {
+                        print(cubit.plantsShowList.length);
+                        return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      child: DetailPage(plant: cubit.plantsShowList[index]),
+                                      type: PageTransitionType.bottomToTop));
+                            },
+                            child: PlantWidget(index: index, plantList: cubit.plantsShowList));
+                      }),
                 ],
               ),
             ),

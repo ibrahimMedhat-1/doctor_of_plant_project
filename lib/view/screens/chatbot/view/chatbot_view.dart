@@ -10,9 +10,9 @@ class ChatBotPage extends StatelessWidget {
   final String? search;
   const ChatBotPage({super.key, this.search});
 
+  static final GlobalKey<FormState> formKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<FormState> formKey = GlobalKey();
     if (search != null) {
       ChatbotCubit.get(context).sendMessage('what is $search');
     }

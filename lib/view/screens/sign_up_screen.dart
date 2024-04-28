@@ -10,9 +10,9 @@ import '../components/custom_text_field.dart';
 class SignUp extends StatelessWidget {
   const SignUp({super.key});
 
+  static GlobalKey<FormState> formKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
-    GlobalKey<FormState> formKey = GlobalKey();
     Size size = MediaQuery.of(context).size;
 
     return BlocConsumer<AuthCubit, AuthState>(

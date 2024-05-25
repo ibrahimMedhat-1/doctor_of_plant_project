@@ -108,7 +108,9 @@ class ScanPage extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => GeminiAi(),
+                                    builder: (context) => GeminiAi(
+                                      diseaseMessage: cubit.disease,
+                                    ),
                                   ));
                             },
                             child: Text(

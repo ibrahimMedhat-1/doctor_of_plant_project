@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
@@ -11,11 +10,9 @@ import 'package:image_picker/image_picker.dart';
 const String GEMINI_API_KEY = "AIzaSyDo4RJVJSWmFB_nPZrdIw3liJf9HsfD_8w";
 
 class GeminiAi extends StatefulWidget {
+  final String? diseaseMessage;
 
-
-
-
-  const GeminiAi({super.key});
+  const GeminiAi({super.key, this.diseaseMessage});
 
   @override
   State<StatefulWidget> createState() => _GeminiAi();
@@ -30,8 +27,20 @@ class _GeminiAi extends State<GeminiAi> {
   ChatUser geminiUser = ChatUser(
       id: "1",
       firstName: "Gemini",
-      profileImage:
-      "https://seeklogo.com/images/G/google-gemini-logo-A5787B2669-seeklogo.com.png");
+      profileImage: "https://seeklogo.com/images/G/google-gemini-logo-A5787B2669-seeklogo.com.png");
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.diseaseMessage != null) {
+      _sendMessage(ChatMessage(
+        user: ChatUser(id: '0'),
+        createdAt: DateTime.now(),
+        text: 'Describe ${widget.diseaseMessage ?? ' '} disease ?',
+      ));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,30 +52,15 @@ class _GeminiAi extends State<GeminiAi> {
           "AI for Image",
           style: TextStyle(fontSize: 20, color: Colors.white),
         ),
-
       ),
       body: _build(),
     );
   }
 
-
-
-
   Widget _build() {
     return DashChat(
-
-
-
-
-
-
-
-
-
-        inputOptions: InputOptions(trailing: [
-          IconButton(
-              onPressed: _sendMediaMessage, icon: const Icon(Icons.image))
-        ]),
+        inputOptions:
+            InputOptions(trailing: [IconButton(onPressed: _sendMediaMessage, icon: const Icon(Icons.image))]),
         currentUser: currentUser,
         onSend: _sendMessage,
         messages: messages);
@@ -86,19 +80,16 @@ class _GeminiAi extends State<GeminiAi> {
         ChatMessage? lastMessage = messages.firstOrNull;
         if (lastMessage != null && lastMessage.user == geminiUser) {
           lastMessage = messages.removeAt(0);
-          String response = event.content?.parts?.fold(
-              "", (previous, current) => "$previous ${current.text}") ??
-              "";
+          String response =
+              event.content?.parts?.fold("", (previous, current) => "$previous ${current.text}") ?? "";
           lastMessage.text += response;
           setState(() {
             messages = [lastMessage!, ...messages];
           });
         } else {
-          String response = event.content?.parts?.fold(
-              "", (previous, current) => "$previous ${current.text}") ??
-              "";
-          ChatMessage message = ChatMessage(
-              user: geminiUser, createdAt: DateTime.now(), text: response);
+          String response =
+              event.content?.parts?.fold("", (previous, current) => "$previous ${current.text}") ?? "";
+          ChatMessage message = ChatMessage(user: geminiUser, createdAt: DateTime.now(), text: response);
           setState(() {
             messages = [message, ...messages];
           });
@@ -117,18 +108,8 @@ class _GeminiAi extends State<GeminiAi> {
           user: currentUser,
           createdAt: DateTime.now(),
           text: "Describe this picture",
-          medias: [
-            ChatMedia(url: file.path, fileName: "", type: MediaType.image)
-          ]);
+          medias: [ChatMedia(url: file.path, fileName: "", type: MediaType.image)]);
       _sendMessage(chatMessage);
-
-
-
-
-
-
-
-
     }
   }
 }

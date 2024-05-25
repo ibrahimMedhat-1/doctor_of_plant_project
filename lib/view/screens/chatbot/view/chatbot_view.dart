@@ -49,8 +49,8 @@ class ChatBotPage extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final message = cubit.reversedChatMessage[index];
                     return ChatBubble(
-                      text: message.text,
-                      isUser: message.isUser,
+                     message: message,
+
                     );
                   },
                   itemCount: cubit.reversedChatMessage.length,
@@ -89,6 +89,11 @@ class ChatBotPage extends StatelessWidget {
                             }
                           },
                           icon: const Icon(Icons.send),
+                        ),
+                        prefix: IconButton(
+                          icon: Icon(
+                            Icons.image
+                          ), onPressed: () {  },
                         ),
                         errorStyle: const TextStyle(height: 0),
                         border: const OutlineInputBorder(),

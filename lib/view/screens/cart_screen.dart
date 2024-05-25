@@ -75,7 +75,7 @@ class CartPage extends StatelessWidget {
                                                     totalAmount: cubit.price.toInt(),
                                                   )));
                                     },
-                                    child: Text('Pay'),
+                                    child: const Text('Pay'),
                                   )
                                 ],
                               ),

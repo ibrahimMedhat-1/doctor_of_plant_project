@@ -35,15 +35,20 @@ class _HomePageState extends State<HomePage> {
     return BlocProvider(
       create: (context) => HomeCubit()
         ..getPlants()
-        ..getFertilizers(),
+        ..getFertilizers()
+        ..getDataSets(),
       child: BlocConsumer<HomeCubit, HomeState>(
         listener: (context, state) {
           if (state is IsSearching) {
-            HomeCubit.get(context).fertilizersShowList = HomeCubit.get(context).fertilizersSearch;
-            HomeCubit.get(context).plantsShowList = HomeCubit.get(context).plantsSearch;
+            HomeCubit.get(context).fertilizersShowList =
+                HomeCubit.get(context).fertilizersSearch;
+            HomeCubit.get(context).plantsShowList =
+                HomeCubit.get(context).plantsSearch;
           } else {
-            HomeCubit.get(context).fertilizersShowList = HomeCubit.get(context).fertilizers;
-            HomeCubit.get(context).plantsShowList = HomeCubit.get(context).plants;
+            HomeCubit.get(context).fertilizersShowList =
+                HomeCubit.get(context).fertilizers;
+            HomeCubit.get(context).plantsShowList =
+                HomeCubit.get(context).plants;
           }
         },
         builder: (context, state) {
@@ -124,9 +129,12 @@ class _HomePageState extends State<HomePage> {
                                 plantTypes[index],
                                 style: TextStyle(
                                   fontSize: 16.0,
-                                  fontWeight: selectedIndex == index ? FontWeight.bold : FontWeight.w300,
-                                  color:
-                                      selectedIndex == index ? Constants.primaryColor : Constants.blackColor,
+                                  fontWeight: selectedIndex == index
+                                      ? FontWeight.bold
+                                      : FontWeight.w300,
+                                  color: selectedIndex == index
+                                      ? Constants.primaryColor
+                                      : Constants.blackColor,
                                 ),
                               ),
                             ),
@@ -145,13 +153,15 @@ class _HomePageState extends State<HomePage> {
                                   context,
                                   PageTransition(
                                       child: DetailPage(
-                                        fertilizerModel: cubit.fertilizersShowList[index],
+                                        fertilizerModel:
+                                            cubit.fertilizersShowList[index],
                                       ),
                                       type: PageTransitionType.bottomToTop));
                             },
                             child: Container(
                               width: 200,
-                              margin: const EdgeInsets.symmetric(horizontal: 10),
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 10),
                               decoration: BoxDecoration(
                                 color: Constants.primaryColor.withOpacity(.8),
                                 borderRadius: BorderRadius.circular(20),
@@ -171,17 +181,28 @@ class _HomePageState extends State<HomePage> {
                                       child: IconButton(
                                           onPressed: () {
                                             setState(() {
-                                              if (cubit.fertilizersShowList[index].isFavorated) {
-                                                cubit.removeFromFav(cubit.fertilizersShowList[index].ref!);
+                                              if (cubit
+                                                  .fertilizersShowList[index]
+                                                  .isFavorated) {
+                                                cubit.removeFromFav(cubit
+                                                    .fertilizersShowList[index]
+                                                    .ref!);
                                               } else {
-                                                cubit.addToFav(cubit.fertilizersShowList[index].ref!);
+                                                cubit.addToFav(cubit
+                                                    .fertilizersShowList[index]
+                                                    .ref!);
                                               }
-                                              cubit.fertilizersShowList[index].isFavorated =
-                                                  !cubit.fertilizersShowList[index].isFavorated;
+                                              cubit.fertilizersShowList[index]
+                                                      .isFavorated =
+                                                  !cubit
+                                                      .fertilizersShowList[
+                                                          index]
+                                                      .isFavorated;
                                             });
                                           },
                                           icon: Icon(
-                                            cubit.fertilizersShowList[index].isFavorated
+                                            cubit.fertilizersShowList[index]
+                                                    .isFavorated
                                                 ? Icons.favorite
                                                 : Icons.favorite_border,
                                             color: Constants.primaryColor,
@@ -194,23 +215,30 @@ class _HomePageState extends State<HomePage> {
                                     right: 50,
                                     top: 50,
                                     bottom: 50,
-                                    child: Image.network(cubit.fertilizersShowList[index].image ?? ''),
+                                    child: Image.network(cubit
+                                            .fertilizersShowList[index].image ??
+                                        ''),
                                   ),
                                   Positioned(
                                     bottom: 15,
                                     left: 20,
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          cubit.fertilizersShowList[index].type ?? '',
+                                          cubit.fertilizersShowList[index]
+                                                  .type ??
+                                              '',
                                           style: const TextStyle(
                                             color: Colors.white70,
                                             fontSize: 16,
                                           ),
                                         ),
                                         Text(
-                                          cubit.fertilizersShowList[index].name ?? '',
+                                          cubit.fertilizersShowList[index]
+                                                  .name ??
+                                              '',
                                           style: const TextStyle(
                                             color: Colors.white70,
                                             fontSize: 15,
@@ -224,14 +252,20 @@ class _HomePageState extends State<HomePage> {
                                     bottom: 15,
                                     right: 20,
                                     child: Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 2),
                                       decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       child: Text(
-                                        r'$' + cubit.fertilizersShowList[index].price.toString(),
-                                        style: TextStyle(color: Constants.primaryColor, fontSize: 16),
+                                        r'$' +
+                                            cubit.fertilizersShowList[index]
+                                                .price
+                                                .toString(),
+                                        style: TextStyle(
+                                            color: Constants.primaryColor,
+                                            fontSize: 16),
                                       ),
                                     ),
                                   ),
@@ -242,7 +276,8 @@ class _HomePageState extends State<HomePage> {
                         }),
                   ),
                   Container(
-                    padding: const EdgeInsets.only(left: 16, bottom: 20, top: 20),
+                    padding:
+                        const EdgeInsets.only(left: 16, bottom: 20, top: 20),
                     child: const Text(
                       'New Plants',
                       style: TextStyle(
@@ -263,11 +298,63 @@ class _HomePageState extends State<HomePage> {
                               Navigator.push(
                                   context,
                                   PageTransition(
-                                      child: DetailPage(plant: cubit.plantsShowList[index]),
+                                      child: DetailPage(
+                                          plant: cubit.plantsShowList[index]),
                                       type: PageTransitionType.bottomToTop));
                             },
-                            child: PlantWidget(index: index, plantList: cubit.plantsShowList));
+                            child: PlantWidget(
+                                index: index, plantList: cubit.plantsShowList));
                       }),
+                  Container(
+                    padding:
+                        const EdgeInsets.only(left: 16, bottom: 20, top: 20),
+                    child: const Text(
+                      'Data Sets',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.0,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: size.height * .2,
+                    child: ListView.builder(
+                        itemCount: cubit.dataSetList.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              height: 100,
+                              width: 120,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: Constants.primaryColor.withOpacity(.2),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.12,
+                                      child: Image(
+                                          image: NetworkImage(cubit
+                                              .dataSetList[index].image
+                                              .toString())),
+                                    ),
+                                    Text(cubit.dataSetList[index].name
+                                        .toString())
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
+                  )
                 ],
               ),
             ),

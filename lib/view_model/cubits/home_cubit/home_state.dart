@@ -27,3 +27,5 @@ final class removedFromFav extends HomeState {}
 final class IsSearching extends HomeState {}
 
 final class IsNotSearching extends HomeState {}
+final class GetDataSetLoading extends HomeState {}
+final class GetDataSet extends HomeState {}

@@ -52,6 +52,7 @@ dependencies:
   localize_and_translate:
   email_validator:
   fluttertoast:
+  dash_chat_2: ^0.0.20
 #  tflite: any
 dev_dependencies:
   flutter_test:

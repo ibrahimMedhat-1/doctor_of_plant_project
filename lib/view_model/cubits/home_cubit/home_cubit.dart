@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../models/data_set_model.dart';
 import '../../../models/fertilizer_model.dart';
 import '../../../models/plant_model.dart';
 import '../../utils/colors.dart';
@@ -18,6 +19,7 @@ class HomeCubit extends Cubit<HomeState> {
   List<FertilizerModel> fertilizersShowList = [];
   List<FertilizerModel> fertilizers = [];
   List<FertilizerModel> fertilizersSearch = [];
+  List<DataSetModel> dataSetList = [];
 
   void getFertilizers() {
     emit(GetAllFertilizersLoading());
@@ -76,6 +78,20 @@ class HomeCubit extends Cubit<HomeState> {
       print(onError);
     });
   }
+  void getDataSets() {
+    emit(GetDataSetLoading());
+    FirebaseFirestore.instance
+        .collection('dataSet')
+        .get()
+        .then((value) async {
+      dataSetList.clear();
+      for (var element in value.docs) {
+        dataSetList.add(DataSetModel.fromJson(element.data(),));
+      }
+      emit(GetDataSet());
+    }).catchError((onError) {});
+  }
+
 
   void addToCart(DocumentReference reference) async {
     emit(AddPlantToCartLoading());

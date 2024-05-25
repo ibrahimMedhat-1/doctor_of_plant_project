@@ -32,19 +32,19 @@ class _SupplementScreenState extends State<SupplementScreen> {
             flexibleSpace: Padding(
               padding: const EdgeInsets.all(8.0),
               child: SearchBar(
-                shape: MaterialStatePropertyAll(
+                shape: WidgetStatePropertyAll(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                     side: const BorderSide(color: Colors.black12),
                   ),
                 ),
-                elevation: const MaterialStatePropertyAll(0),
+                elevation: const WidgetStatePropertyAll(0),
                 leading: const Icon(
                   Icons.search,
                   color: Colors.black,
                 ),
                 hintText: 'Search supplement',
-                hintStyle: const MaterialStatePropertyAll(
+                hintStyle: const WidgetStatePropertyAll(
                   TextStyle(color: Colors.black38),
                 ),
               ),

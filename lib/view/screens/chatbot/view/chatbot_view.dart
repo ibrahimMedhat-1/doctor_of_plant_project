@@ -1,129 +1,134 @@
-import 'package:doctor_of_plant_project/view/screens/chatbot/view/widgets/chat_bubble.dart';
-import 'package:doctor_of_plant_project/view/screens/chatbot/view/widgets/typing_indicator.dart';
-import 'package:doctor_of_plant_project/view_model/utils/colors.dart';
+
+import 'dart:developer';
+import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
+import 'package:image_picker/image_picker.dart';
 
-import '../manager/chatbot_cubit.dart';
+const String GEMINI_API_KEY = "AIzaSyDo4RJVJSWmFB_nPZrdIw3liJf9HsfD_8w";
 
-class ChatBotPage extends StatelessWidget {
-  final String? search;
-  const ChatBotPage({super.key, this.search});
+class GeminiAi extends StatefulWidget {
 
-  static final GlobalKey<FormState> formKey = GlobalKey();
+
+
+
+  const GeminiAi({super.key});
+
+  @override
+  State<StatefulWidget> createState() => _GeminiAi();
+}
+
+class _GeminiAi extends State<GeminiAi> {
+  final Gemini gemini = Gemini.instance;
+
+  List<ChatMessage> messages = [];
+
+  ChatUser currentUser = ChatUser(id: "0", firstName: "User");
+  ChatUser geminiUser = ChatUser(
+      id: "1",
+      firstName: "Gemini",
+      profileImage:
+      "https://seeklogo.com/images/G/google-gemini-logo-A5787B2669-seeklogo.com.png");
   @override
   Widget build(BuildContext context) {
-    if (search != null) {
-      ChatbotCubit.get(context).sendMessage('what is $search');
-    }
-    return BlocConsumer<ChatbotCubit, ChatbotState>(
-      listener: (context, state) {},
-      builder: (context, state) {
-        ChatbotCubit cubit = ChatbotCubit.get(context);
-        return Scaffold(
-          appBar: AppBar(
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  "assets/images/icons8-chatgpt-64.png",
-                  scale: 2,
-                ),
-                const SizedBox(
-                  width: 2,
-                ),
-                const Text("Chatbot"),
-                const SizedBox(
-                  width: 2,
-                ),
-              ],
-            ),
-            centerTitle: true,
-          ),
-          body: Column(
-            children: [
-              Expanded(
-                child: ListView.builder(
-                  controller: cubit.scrollController,
-                  reverse: true,
-                  itemBuilder: (context, index) {
-                    final message = cubit.reversedChatMessage[index];
-                    return ChatBubble(
-                     message: message,
+    return Scaffold(
+      backgroundColor: const Color(0xff030b18),
+      appBar: AppBar(
+        backgroundColor: const Color(0xff151724),
+        centerTitle: true,
+        title: const Text(
+          "AI for Image",
+          style: TextStyle(fontSize: 20, color: Colors.white),
+        ),
 
-                    );
-                  },
-                  itemCount: cubit.reversedChatMessage.length,
-                ),
-              ),
-              Align(
-                alignment: Alignment.bottomLeft,
-                child: TypingIndicator(
-                  showIndicator: cubit.isTyping,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.07,
-                  child: Form(
-                    key: formKey,
-                    child: TextFormField(
-                      controller: cubit.messageController,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return '';
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.white,
-                        hintText: "Send Message",
-                        hintStyle: Theme.of(context).textTheme.bodyMedium,
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            if (formKey.currentState!.validate()) {
-                              cubit.sendMessage(cubit.messageController.text);
-                              cubit.messageController.clear();
-                            }
-                          },
-                          icon: const Icon(Icons.send),
-                        ),
-                        prefix: IconButton(
-                          icon: Icon(
-                            Icons.image
-                          ), onPressed: () {  },
-                        ),
-                        errorStyle: const TextStyle(height: 0),
-                        border: const OutlineInputBorder(),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                            color: Constants.primaryColor,
-                          ),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                            color: Constants.primaryColor,
-                          ),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                            color: Constants.primaryColor,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
+      ),
+      body: _build(),
     );
+  }
+
+
+
+
+  Widget _build() {
+    return DashChat(
+
+
+
+
+
+
+
+
+
+        inputOptions: InputOptions(trailing: [
+          IconButton(
+              onPressed: _sendMediaMessage, icon: const Icon(Icons.image))
+        ]),
+        currentUser: currentUser,
+        onSend: _sendMessage,
+        messages: messages);
+  }
+
+  void _sendMessage(ChatMessage chatMessage) {
+    setState(() {
+      messages = [chatMessage, ...messages];
+    });
+    try {
+      String question = chatMessage.text;
+      List<Uint8List>? images;
+      if (chatMessage.medias?.isNotEmpty ?? false) {
+        images = [File(chatMessage.medias!.first.url).readAsBytesSync()];
+      }
+      gemini.streamGenerateContent(question, images: images).listen((event) {
+        ChatMessage? lastMessage = messages.firstOrNull;
+        if (lastMessage != null && lastMessage.user == geminiUser) {
+          lastMessage = messages.removeAt(0);
+          String response = event.content?.parts?.fold(
+              "", (previous, current) => "$previous ${current.text}") ??
+              "";
+          lastMessage.text += response;
+          setState(() {
+            messages = [lastMessage!, ...messages];
+          });
+        } else {
+          String response = event.content?.parts?.fold(
+              "", (previous, current) => "$previous ${current.text}") ??
+              "";
+          ChatMessage message = ChatMessage(
+              user: geminiUser, createdAt: DateTime.now(), text: response);
+          setState(() {
+            messages = [message, ...messages];
+          });
+        }
+      });
+    } catch (e) {
+      log("$e");
+    }
+  }
+
+  void _sendMediaMessage() async {
+    ImagePicker picker = ImagePicker();
+    XFile? file = await picker.pickImage(source: ImageSource.gallery);
+    if (file != null) {
+      ChatMessage chatMessage = ChatMessage(
+          user: currentUser,
+          createdAt: DateTime.now(),
+          text: "Describe this picture",
+          medias: [
+            ChatMedia(url: file.path, fileName: "", type: MediaType.image)
+          ]);
+      _sendMessage(chatMessage);
+
+
+
+
+
+
+
+
+    }
   }
 }

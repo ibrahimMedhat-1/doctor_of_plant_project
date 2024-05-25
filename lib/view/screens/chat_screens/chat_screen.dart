@@ -11,6 +11,7 @@ class ChatScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+
         centerTitle: true,
         backgroundColor: Constants.primaryColor,
         title: const Text('Chat With Us '),
@@ -59,7 +60,7 @@ class ChatScreen extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     Navigation.pushAndReplacement(
-                        context, const ChatBotPage());
+                        context, const GeminiAi());
                   },
                   style: ElevatedButton.styleFrom(
                       fixedSize: const Size(170, 50),

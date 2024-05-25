@@ -108,7 +108,7 @@ class ScanPage extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => ChatBotPage(search: cubit.disease),
+                                    builder: (context) => GeminiAi(),
                                   ));
                             },
                             child: Text(

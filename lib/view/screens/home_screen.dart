@@ -198,43 +198,50 @@ class _HomePageState extends State<HomePage> {
                                     bottom: 50,
                                     child: Image.network(cubit.fertilizersShowList[index].image ?? ''),
                                   ),
-                                  Positioned(
-                                    bottom: 15,
-                                    left: 20,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                  Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.end,
                                       children: [
-                                        Text(
-                                          cubit.fertilizersShowList[index].type ?? '',
-                                          style: const TextStyle(
-                                            color: Colors.white70,
-                                            fontSize: 16,
+                                        Expanded(
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                overflow: TextOverflow.ellipsis,
+                                                cubit.fertilizersShowList[index].type ?? '',
+                                                style: const TextStyle(
+                                                  color: Colors.white70,
+                                                  fontSize: 16,
+                                                ),
+                                              ),
+                                              Text(
+                                                overflow: TextOverflow.ellipsis,
+                                                cubit.fertilizersShowList[index].name ?? '',
+                                                style: const TextStyle(
+                                                  color: Colors.white70,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        Text(
-                                          cubit.fertilizersShowList[index].name ?? '',
-                                          style: const TextStyle(
-                                            color: Colors.white70,
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold,
+                                        Expanded(
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.circular(20),
+                                            ),
+                                            child: Text(
+                                              r'$' + cubit.fertilizersShowList[index].price.toString(),
+                                              style: TextStyle(color: Constants.primaryColor, fontSize: 16),
+                                            ),
                                           ),
                                         ),
                                       ],
-                                    ),
-                                  ),
-                                  Positioned(
-                                    bottom: 15,
-                                    right: 20,
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-                                      child: Text(
-                                        r'$' + cubit.fertilizersShowList[index].price.toString(),
-                                        style: TextStyle(color: Constants.primaryColor, fontSize: 16),
-                                      ),
                                     ),
                                   ),
                                 ],

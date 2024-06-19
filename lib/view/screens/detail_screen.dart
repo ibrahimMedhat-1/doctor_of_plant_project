@@ -174,58 +174,34 @@ class _DetailPageState extends State<DetailPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  widget.fertilizerModel == null
-                                      ? widget.plant!.name!
-                                      : widget.fertilizerModel!.name!,
-                                  style: TextStyle(
-                                    color: Constants.primaryColor,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 30.0,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  " ${widget.fertilizerModel == null ? widget.plant!.price! : widget.fertilizerModel!.price!}",
-                                  style: TextStyle(
-                                    color: Constants.blackColor,
-                                    fontSize: 24.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
+                        Expanded(
+                          child: Text(
+                            widget.fertilizerModel == null
+                                ? widget.plant!.name!
+                                : widget.fertilizerModel!.name!,
+                            style: TextStyle(
+                              color: Constants.primaryColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 30.0,
                             ),
-                            // Row(
-                            //   children: [
-                            //     Text(
-                            //       widget.plant.rating.toString(),
-                            //       style: TextStyle(
-                            //         fontSize: 30.0,
-                            //         color: Constants.primaryColor,
-                            //       ),
-                            //     ),
-                            //     Icon(
-                            //       Icons.star,
-                            //       size: 30.0,
-                            //       color: Constants.primaryColor,
-                            //     ),
-                            //   ],
-                            // ),
-                          ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          " ${widget.fertilizerModel == null ? widget.plant!.price! : widget.fertilizerModel!.price!}",
+                          style: TextStyle(
+                            color: Constants.blackColor,
+                            fontSize: 24.0,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         const SizedBox(
                           height: 5.0,
                         ),
                         Expanded(
+                          flex: 4,
                           child: Text(
                             widget.fertilizerModel == null
                                 ? widget.plant!.decription!

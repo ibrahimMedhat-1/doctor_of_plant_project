@@ -49,6 +49,7 @@ class CartCubit extends Cubit<CartState> {
         );
         await document.get().then((value) {
           price += value.data()!['price'];
+          print(document.path);
           if (document.path.split("/").first == "fertilizer") {
             cartItems.add(
                 FertilizerModel.fromJson(value.data(), isCart: true, isFavorated: isFav.docs.isNotEmpty));
